@@ -1,0 +1,15 @@
+{% load i18n %}
+<ul class="mt-3 nav nav-tabs">
+  <li class="nav-item">
+    <a {% if request.resolver_match.view_name == 'users:profile' %} class="nav-link active" aria-current="page"{% else %} class="nav-link"{% endif %}
+      href="{% url 'users:profile' %}">{% trans "Profile" %}</a>
+  </li>
+  <li class="nav-item">
+    <a {% if request.resolver_match.view_name == 'account_email' %} class="nav-link active" aria-current="page"{% else %} class="nav-link"{% endif %}
+      href="{% url 'account_email' %}">{% trans "Email addresses" %}</a>
+  </li>
+  <li class="nav-item">
+    <a {% if request.resolver_match.view_name == 'account_change_password' %} class="nav-link active" aria-current="page"{% else %} class="nav-link"{% endif %}
+      href="{% url 'account_change_password' %}">{% trans "Change password" %}</a>
+  </li>
+</ul>

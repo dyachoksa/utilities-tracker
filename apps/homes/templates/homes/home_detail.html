@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ home.title }} - {% trans "Homes & Apartments" %}{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-row gap-2 justify-content-between align-items-center">
+    <h1>
+      {{ home.title }}
+      <small class="ps-3 text-body-secondary fs-4">
+        {{ home.location | default_if_none:"-" }} ({{ home.area }} m<sup>2</sup>)
+      </small>
+    </h1>
+
+    <div>
+      <button class="btn btn-light" hx-get="{{ home.get_edit_url }}" hx-target="#dialog">{% trans "Edit" %}</button>
+      <button class="ms-1 btn btn-light" hx-get="{{ home.get_delete_url }}"
+              hx-target="#dialog">{% trans "Delete" %}</button>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div class="d-flex flex-row gap-2 justify-content-between align-items-center">
+      <h3>{% trans "Providers" %}</h3>
+
+      <div>
+        <button
+          class="btn btn-light"
+          hx-get="{% url 'providers:create' %}?home={{ home.pk }}"
+          hx-target="#dialog"
+        >
+          {% trans 'Add provider' %}
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="mt-2 providers-grid"
+      hx-get="{% url 'providers:index' %}?home={{ home.pk }}"
+      hx-trigger="providers-changed from:body"
+      hx-target="this"
+    >
+      {% include "providers/partials/providers.html" with providers=providers %}
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="d-flex flex-row gap-2 justify-content-between align-items-center">
+      <h3>{% trans 'Latest records' %}</h3>
+
+      <div>
+        <button
+          class="btn btn-light"
+          hx-get="{% url 'records:create' %}?home={{ home.pk }}"
+          hx-target="#dialog"
+        >
+          {% trans "Add record" %}
+        </button>
+
+        <a href="{% url 'records:index' %}?home={{ home.pk }}" class="ms-1 btn btn-light">{% trans 'View all' %}</a>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="mt-2"
+    hx-trigger="load, records-changed from:body"
+    hx-get="{% url 'records:index' %}?home={{ home.pk }}&exclude=filters,pagination&limit=10"
+    hx-boost="true"
+    hx-push-url="false"
+    hx-target="this"
+    hx-indicator="#table-indicator"
+    id="records-table"
+  >
+    <div id="table-indicator" class="htmx-indicator text-left">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+{% endblock %}

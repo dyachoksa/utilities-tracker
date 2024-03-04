@@ -1,0 +1,14 @@
+{% extends "base_form_modal.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block title %}
+	{% if category %}{% trans 'Edit category' %}{% else %}{% trans 'Add a new category' %}{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% bootstrap_form form %}
+{% endblock %}
+
+{% block action_title %}
+	{% if category %}{% trans "Update" %}{% else %}{% trans "Add category" %}{% endif %}
+{% endblock %}

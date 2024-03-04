@@ -1,0 +1,53 @@
+:root, [data-bs-theme=light] {
+    --bs-black: #121212;
+    --bs-border-radius: 0.1875rem;
+    --bs-font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --bs-body-font-size: 14px;
+    --bs-btn-font-size: 14px;
+    --bs-dropdown-font-size: 14px;
+}
+
+html {
+    font-size: 16px;
+}
+
+.providers-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+}
+
+.htmx-indicator {
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    display: block;
+}
+
+.htmx-request.htmx-indicator {
+    display: block;
+}
+
+.dropdown-menu {
+    --bs-dropdown-font-size: 14px;
+}
+
+.table-container th.orderable:after {
+    content: ' ';
+    float: right;
+    width: 18px;
+    color: var(--bs-primary);
+}
+
+.table-container th.asc:after {
+    content: '\0000a0\0025b2';
+}
+
+.table-container th.desc:after {
+    content: '\0000a0\0025bc';
+}
+
+.list-group-flush > .list-group-item {
+    padding: var(--bs-list-group-item-padding-y) 0;
+}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ provider.name }} - {% trans 'Providers' %}{% endblock %}
+
+{% block extra_body %}
+  <script src="{% static 'js/chart.umd.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="hstack gap-4 align-items-center">
+    <a href="{{ provider.home.get_absolute_url }}" class="fs-2 link-dark">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+
+    <div class="pt-1 hstack gap-2">
+      <h1>{{ provider.name }}</h1>
+
+      <p class="ps-2 mb-0 fs-5 text-body-secondary">
+        <a href="{{ provider.home.get_absolute_url }}">{{ provider.home.title }}</a>
+        / {{ provider.home.location | default_if_none:"-" }}
+        ({{ provider.home.area }} m<sup>2</sup>)
+      </p>
+    </div>
+
+    <div class="ms-auto">
+      <button class="btn btn-light" hx-get="{{ provider.get_edit_url }}" hx-target="#dialog">{% trans "Edit" %}</button>
+      <button class="ms-1 btn btn-light" hx-get="{{ provider.get_delete_url }}"
+              hx-target="#dialog">{% trans "Delete" %}</button>
+    </div>
+  </div>
+
+  <div class="mt-4 row">
+    <div class="col col-md-8 col-lg-9">
+      <div
+        hx-get="{% url 'stats:provider-usage' provider.pk %}"
+        hx-trigger="load, records-changed from:body"
+        hx-target="this"
+      >
+        <div class="htmx-indicator text-left">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-md-4 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex flex-row gap-2 justify-content-between align-items-center">
+            <h4>{% trans 'Payment plans' %}</h4>
+
+            <div>
+              <button
+                class="btn btn-light btn-sm"
+                hx-get="{% url 'providers:payment-plan-create' provider.pk %}"
+                hx-target="#dialog"
+                title="{% trans 'Add new payment plan' %}"
+              >
+                {% trans 'Add' %}
+              </button>
+            </div>
+          </div>
+
+          <div hx-trigger="payment-plans-changed from:body" hx-get="{% url 'providers:payment-plan-list' provider.pk %}"
+               hx-target="this">
+            {% include 'providers/partials/payment_plans.html' with payment_plans=payment_plans %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="d-flex flex-row gap-2 justify-content-between align-items-center">
+      <h3>{% trans 'Latest records' %}</h3>
+
+      <div>
+        <button
+          class="btn btn-light"
+          hx-get="{% url 'records:create' %}?home={{ provider.home_id }}&provider={{ provider.pk }}"
+          hx-target="#dialog"
+        >
+          {% trans "Add record" %}
+        </button>
+
+        <a href="{% url 'records:index' %}?home={{ provider.home_id }}&provider={{ provider.pk }}"
+           class="ms-1 btn btn-light">{% trans 'View all' %}</a>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="mt-2"
+    hx-trigger="load, records-changed from:body"
+    hx-get="{% url 'records:index' %}?home={{ provider.home_id }}&provider={{ provider.pk }}&exclude=filters,pagination&limit=10"
+    hx-boost="true"
+    hx-push-url="false"
+    hx-target="this"
+    id="records-table"
+  >
+    <div class="htmx-indicator text-left">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+{% endblock %}

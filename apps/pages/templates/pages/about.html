@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "About us" %}{% endblock %}
+
+{% block content %}
+  <div class="mx-auto col col-lg-8">
+    <h1>{% translate 'About us' %}</h1>
+
+    <p>
+      {% blocktrans %}The <strong>Utilities Tracker</strong> is a small non-profit project for tracking utility usage and getting
+      basic consumption statistics.{% endblocktrans %}
+    </p>
+
+    <p>
+    {% blocktrans %}Do you find it tedious to keep track of your gas, water, and electricity usage every month?
+    Do you often forget the numbers from the previous month and have to start over?
+    We understand how irritating this can be, so we've created a solution that simplifies the process for you.
+    Our user-friendly system allows you to easily record and access your usage data
+    without the hassle of pen and paper. Give it a try and let us know what you think!{% endblocktrans %}
+    </p>
+
+    <p>
+      {% blocktrans %}<strong>What we can</strong>: provide you a way to store information about your homes, utility providers and usage records.{% endblocktrans %}
+    </p>
+
+    <p>
+      {% blocktrans %}<strong>What we can't</strong>: automate the payment process or sync payment plans from your provider.{% endblocktrans %}
+    </p>
+  </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">{% block title %}{% endblock %}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}"></button>
+  </div>
+
+  <div class="modal-body">
+    {% block content %}{% endblock %}
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+      {% trans "Cancel" %}
+    </button>
+
+    {% block action %}{% endblock %}
+  </div>
+</div>

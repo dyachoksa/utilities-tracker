@@ -1,0 +1,25 @@
+{% extends 'base_modal.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Delete record' %}{% endblock %}
+
+{% block content %}
+  <p>
+    {% blocktrans %}Are you sure you want to delete this record?{% endblocktrans %}
+  </p>
+
+  <p class="text-muted">
+    {% blocktrans %}This action cannot be undone{% endblocktrans %}
+  </p>
+{% endblock %}
+
+{% block action %}
+  <button
+    type="submit"
+    class="btn btn-primary"
+    hx-post="{{ record.get_delete_url }}"
+    hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+  >
+    {% trans "Yes, delete" %}
+  </button>
+{% endblock %}

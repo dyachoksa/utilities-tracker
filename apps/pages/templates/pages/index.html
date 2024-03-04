@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+	<div class="px-4 pt-5 my-5 text-center {# border-bottom #}">
+    <h1 class="display-3 fw-bold text-body-emphasis">
+      {% blocktrans %}Utility tracking <br /><span class="text-primary">made simple</span> for everyone{% endblocktrans %}
+    </h1>
+    <div class="col-lg-8 mx-auto">
+      <p class="lead mb-4">
+        {% blocktrans %}Are you tired of manually tracking monthly utility usage? Let us make it simpler for you!{% endblocktrans %}
+      </p>
+
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+        <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg px-4 me-sm-3">{% trans 'Sign up' %}</a>
+        <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-lg px-4">{% translate 'Sign in' %}</a>
+      </div>
+    </div>
+
+    <div class="overflow-hidden" style="max-height: 30vh;">
+      <div class="container px-5">
+{#        <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">#}
+      </div>
+    </div>
+  </div>
+{% endblock %}

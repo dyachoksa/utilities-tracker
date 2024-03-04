@@ -1,0 +1,29 @@
+{% load i18n %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+
+<div>
+  {% if show_filters %}
+    <form hx-get="{{ request.path }}" hx-push-url="true" hx-target="#records-table" hx-trigger="submit, change">
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="mb-3 flex-grow-1">
+          <div id="table-indicator" class="htmx-indicator text-left">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+
+        {% bootstrap_field filter.form.home show_label=False %}
+        {% bootstrap_field filter.form.provider show_label=False %}
+        {% bootstrap_field filter.form.is_paid show_label=False %}
+
+        <div class="mb-3">
+          <button hx-get="{{ request.path }}" type="reset" class="btn btn-primary">{% trans "Reset" %}</button>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+  {% render_table table %}
+</div>

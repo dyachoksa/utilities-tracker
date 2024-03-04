@@ -1,0 +1,76 @@
+{% load i18n django_bootstrap5 %}
+<form
+  hx-post="{{ request.path }}"
+  hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+  class="modal-content"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {% if record %}{% trans 'Edit record' %}{% else %}{% trans 'Add a new record' %}{% endif %}
+    </h5>
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}"></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row row-cols-2">
+      <div class="col">
+        {% bootstrap_field form.home %}
+      </div>
+
+      <div class="col">
+        {% bootstrap_field form.provider %}
+      </div>
+
+      <div class="col">
+        {% bootstrap_field form.record_date show_help=True %}
+      </div>
+      <div class="col"></div>
+
+      {% if provider and provider.has_counter %}
+        <div class="col">
+          {% bootstrap_field form.prev_numbers %}
+        </div>
+        <div class="col">
+          {% bootstrap_field form.current_numbers %}
+        </div>
+
+        {% if latest_record %}
+          <div class="col w-100">
+            <h5>{% trans 'Previous record' %}</h5>
+          </div>
+
+          <div class="col">
+            <p class="mb-0 text-body-secondary fw-medium">{% trans 'Beginning numbers' %}</p>
+            <p>{{ latest_record.prev_numbers }}</p>
+          </div>
+          <div class="col">
+            <p class="mb-0 text-body-secondary fw-medium">{% trans 'Ending numbers' %}</p>
+            <p>{{ latest_record.current_numbers }}</p>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      <div class="col">
+        {% bootstrap_field form.total_to_pay %}
+      </div>
+      <div class="col">
+        {% bootstrap_field form.total_paid %}
+      </div>
+
+      <div class="col">
+        {% bootstrap_field form.is_paid %}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+      {% trans "Cancel" %}
+    </button>
+
+    <button type="submit" class="btn btn-primary">
+      {% if record %}{% trans "Update" %}{% else %}{% trans "Add record" %}{% endif %}
+    </button>
+  </div>
+</form>

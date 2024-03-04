@@ -1,0 +1,66 @@
+{% load i18n %}
+<div class="card">
+  <div class="card-body">
+    <div style="position: relative; height: 350px; width: 100%">
+      <canvas id="provider-usage-chart"></canvas>
+    </div>
+  </div>
+</div>
+
+{{ data | json_script:"provider-usage-data" }}
+
+<script>
+  ;(function () {
+    const data = JSON.parse(document.getElementById('provider-usage-data').textContent);
+    const ctx = document.getElementById('provider-usage-chart')
+
+    new Chart(ctx, {
+      data: {
+        labels: data.map(v => v.label),
+        datasets: [
+          {% if provider.has_counter %}
+          {
+            type: 'line',
+            label: "{% trans 'Usage' %}",
+            data: data.map(v => v.usage),
+            tension: 0.25,
+            backgroundColor: 'rgb(255, 99, 132, 0.5)',
+            borderColor: 'rgb(255, 99, 132)',
+          },
+          {% endif %}
+          {
+            type: 'bar',
+            label: "{% trans 'Total paid' %}",
+            data: data.map(v => v.total),
+            backgroundColor: 'rgba(54, 162, 235, 0.65)',
+            borderColor: 'rgba(54, 162, 235)',
+            borderWidth: 1,
+          },
+          {
+            type: 'bar',
+            label: "{% trans 'Total to pay' %}",
+            data: data.map(v => v.expected_total),
+            backgroundColor: 'rgba(255, 159, 64, 0.65)',
+            borderColor: 'rgba(255, 159, 64, 0.5)',
+            borderWidth: 1,
+          },
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            grid: {
+              display: false
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    })
+  })()
+</script>

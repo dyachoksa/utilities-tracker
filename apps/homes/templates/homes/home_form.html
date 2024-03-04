@@ -1,0 +1,14 @@
+{% extends "base_form_modal.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block title %}
+	{% if home %}{% trans 'Edit home/apartment' %}{% else %}{% trans 'Add a new home/apartment' %}{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% bootstrap_form form %}
+{% endblock %}
+
+{% block action_title %}
+	{% if home %}{% trans "Update" %}{% else %}{% trans "Add home" %}{% endif %}
+{% endblock %}

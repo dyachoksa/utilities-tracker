@@ -1,0 +1,18 @@
+{% load i18n %}
+{% for home in homes %}
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <a href="{{ home.get_absolute_url }}" class="card-title fs-4 fw-medium">{{ home.title }}</a>
+        <div class="card-subtitle">
+          {{ home.location | default_if_none:"-" }} ({{ home.area }} m<sup>2</sup>)
+        </div>
+      </div>
+
+      <div class="card-body">
+        <a href="{{ home.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
+        <a href="#" class="card-link" hx-get="{{ home.get_edit_url }}" hx-target="#dialog">{% trans "Edit" %}</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}

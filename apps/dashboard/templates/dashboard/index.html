@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+
+{% block content %}
+  <h1>{% trans 'Usage overview' %}</h1>
+
+  <div class="mt-4 row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{% trans 'This month payments' %}</h5>
+
+          <div class="w-100 text-center" style="height: 300px;">
+            <canvas id="total-by-category-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{% trans 'This month payments' %}</h5>
+
+          <div class="hstack gap-2">
+            <span class="text-primary fs-4 fw-medium"
+                  title="{% trans 'Total paid' %}">{{ total_paid | stringformat:".2f" }}</span>
+            <span class="ms-auto text-body-secondary">{% trans 'total to pay' %}</span>
+            <span class="text-body-secondary fs-6">{{ total_to_pay | stringformat:".2f" }}</span>
+            <span
+              class="{% if paid_percent < 95 %}text-warning{% else %}text-success{% endif %} fs-6">({{ paid_percent }}%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 card">
+        <div class="card-body">
+          <div class="d-flex gap-2 align-items-center justify-content-between">
+            <h5 class="card-title">{% trans 'Latest records' %}</h5>
+            <a href="{% url 'records:index' %}" class="btn btn-light btn-sm">{% trans 'View all' %}</a>
+          </div>
+
+          <div class="list-group list-group-flush">
+            {% for record in latest_records %}
+              <div class="list-group-item">
+                <div class="d-flex gap-2 align-items-start">
+                  <span class="d-block text-start fs-6" style="color: {{ record.get_category_color }}; width: 18px">
+                    <i class="{{ record.get_category_icon }}"></i>
+                  </span>
+
+                  <p class="mb-0 fs-6 w-25">
+                    <span>{{ record.get_provider_name }}</span><br />
+                  </p>
+
+                  <p class="mb-0 fs-6 w-25">
+                    <span class="text-body-secondary">{{ record.get_home_title }}</span>
+                  </p>
+
+                  <p class="mb-0 flex-grow-1 text-end">
+                    <span class="{% if record.is_paid %}text-success{% else %}text-warning{% endif %} fw-medium fs-6">
+                      {{ record.total_paid | floatformat:2 }}
+                    </span>
+                    <span class="text-body-secondary"> ({{ record.total_to_pay | floatformat:2 }})</span>
+                  </p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{% trans 'Last 12 months payments' %}</h5>
+
+          <div class="w-100" style="height: 450px;">
+            <canvas id="usage-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_body %}
+  {{ usage_data | json_script:"usage-data" }}
+  {{ total_by_category_data | json_script:"total-by-category-data" }}
+
+  <script src="{% static 'js/chart.umd.min.js' %}"></script>
+  <script>
+    ;(function () {
+      const data = JSON.parse(document.getElementById('total-by-category-data').textContent);
+      const ctx = document.getElementById('total-by-category-chart');
+
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: data.map(v => v.category),
+          datasets: [
+            {
+              label: "{% trans 'Total paid' %}",
+              data: data.map(v => v.total_paid),
+              {#backgroundColor: data.map(v => v.color),#}
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right'
+            }
+          }
+        }
+      })
+    })()
+  </script>
+  <script>
+    ;(function () {
+      const data = JSON.parse(document.getElementById('usage-data').textContent);
+      const ctx = document.getElementById('usage-chart');
+
+      new Chart(ctx, {
+        data: {
+          labels: data.map(v => v.label),
+          datasets: [
+            {
+              type: 'bar',
+              label: "{% trans 'Total paid' %}",
+              data: data.map(v => v.total_paid)
+            },
+            {
+              type: 'bar',
+              label: "{% trans 'Total to pay' %}",
+              data: data.map(v => v.total_to_pay)
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              grid: {
+                display: false
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      })
+    })()
+  </script>
+{% endblock %}

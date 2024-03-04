@@ -1,0 +1,57 @@
+{% load static i18n %}
+<header class="p-3 mb-3 border-bottom">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-4">
+      <a href="{% if user.is_authenticated %}{% url 'dashboard:index' %}{% else %}{% url 'pages:index' %}{% endif %}"
+         class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+        <img src="{% static 'logo.png' %}" width="32" height="32" alt="Utilities Traker" />
+      </a>
+
+      <ul class="nav nav-underline col-12 col-md-auto me-md-auto mb-2 justify-content-center mb-lg-0">
+        {% if user.is_authenticated %}
+          {% for item in menus.main %}
+            <li class="nav-item">
+              <a href="{{ item.url }}" class="nav-link {% if item.selected %} active{% else %} {% endif %}">
+                {{ item.title }}
+              </a>
+            </li>
+          {% endfor %}
+        {% else %}
+          {% for item in menus.guest %}
+            <li class="nav-item">
+              <a href="{{ item.url }}" class="nav-link {% if item.selected %} active{% else %} {% endif %}">
+                {{ item.title }}
+              </a>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+
+      {% if user.is_authenticated %}
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">
+            {{ user.get_short_name }}
+          </a>
+          <ul class="dropdown-menu text-small">
+            <li><a class="dropdown-item" href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
+            {% if user.is_staff %}
+              <li><a class="dropdown-item" href="{% url 'admin:index' %}" target="_blank">{% trans 'Admin portal' %}</a>
+              </li>
+            {% endif %}
+            <li>
+              <hr class="dropdown-divider"/>
+            </li>
+            <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a></li>
+          </ul>
+        </div>
+      {% else %}
+        <div class="d-flex flex-row gap-2">
+          <a class="btn btn-light" href="{% url 'account_login' %}">{% trans 'Sign in' %}</a>
+          <a class="btn btn-primary" href="{% url 'account_signup' %}">{% trans 'Sign up' %}</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</header>

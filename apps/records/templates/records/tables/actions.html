@@ -1,0 +1,20 @@
+{% load i18n %}
+<div class="btn-group">
+  <button
+    class="btn btn-light btn-sm"
+    title="{% trans 'Edit record' %}"
+    hx-get="{{ record.get_edit_url }}"
+    hx-target="#dialog"
+  >
+    <i class="fa-regular fa-pen-to-square"></i>
+  </button>
+
+  <button
+    class="btn btn-light btn-sm"
+    title="{% trans 'Delete record' %}"
+    hx-get="{{ record.get_delete_url }}"
+    hx-target="#dialog"
+  >
+    <i class="fa-regular fa-trash-can"></i>
+  </button>
+</div>

@@ -1,0 +1,21 @@
+{% load i18n static %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-chevron">
+    <li class="breadcrumb-item">
+      <a class="link-body-emphasis" href="#">
+        <img src="{% static 'logo.png' %}" width="24" height="24" alt="{% trans 'Dashboard' %}"/>
+        <span class="visually-hidden">Home</span>
+      </a>
+    </li>
+
+    <li class="breadcrumb-item">
+      <a class="link-body-emphasis fw-semibold text-decoration-none" href="{{ selected_menu.url }}">
+        {{ selected_menu.title }}
+      </a>
+    </li>
+
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ end_title }}
+    </li>
+  </ol>
+</nav>

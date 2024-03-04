@@ -1,0 +1,14 @@
+{% extends "base_form_modal.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block title %}
+	{% if payment_plan %}{% trans 'Edit payment plan' %}{% else %}{% trans 'Add a new payment plan' %}{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% bootstrap_form form %}
+{% endblock %}
+
+{% block action_title %}
+	{% if payment_plan %}{% trans "Update" %}{% else %}{% trans "Add payment plan" %}{% endif %}
+{% endblock %}
