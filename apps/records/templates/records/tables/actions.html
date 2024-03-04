@@ -11,6 +11,15 @@
 
   <button
     class="btn btn-light btn-sm"
+    title="{% trans 'Add payment' %}"
+    hx-get="{{ record.get_add_payment_url }}"
+    hx-target="#dialog"
+  >
+    <i class="fa-solid fa-comment-dollar"></i>
+  </button>
+
+  <button
+    class="btn btn-light btn-sm"
     title="{% trans 'Delete record' %}"
     hx-get="{{ record.get_delete_url }}"
     hx-target="#dialog"

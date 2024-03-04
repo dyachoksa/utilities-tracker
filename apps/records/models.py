@@ -102,3 +102,6 @@ class Record(models.Model):
 
     def get_delete_url(self):
         return reverse("records:delete", kwargs={"pk": self.id})
+
+    def get_add_payment_url(self):
+        return reverse("records:add-payment", kwargs={"pk": self.id})

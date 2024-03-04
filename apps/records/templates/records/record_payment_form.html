@@ -1,0 +1,14 @@
+{% extends "base_form_modal.html" %}
+{% load i18n django_bootstrap5 %}
+
+{% block title %}
+	{% trans 'Add payment' %}
+{% endblock %}
+
+{% block content %}
+	{% bootstrap_form form %}
+{% endblock %}
+
+{% block action_title %}
+	{% trans "Add payment" %}
+{% endblock %}

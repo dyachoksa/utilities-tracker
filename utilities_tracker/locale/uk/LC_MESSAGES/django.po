@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-02 20:23+0000\n"
-"PO-Revision-Date: 2024-03-02 22:23+0200\n"
+"POT-Creation-Date: 2024-03-04 20:34+0000\n"
+"PO-Revision-Date: 2024-03-04 22:35+0200\n"
 "Last-Translator: Serhii Diachok <sergey@sdyachok.com.ua>\n"
 "Language-Team: Ukrainian <sergey@sdyachok.com.ua>\n"
 "Language: uk\n"
@@ -236,10 +236,6 @@ msgid "About us"
 msgstr "Про нас"
 
 #: apps/pages/templates/pages/about.html:11
-#| msgid ""
-#| "The <strong>Utilities Tracker</strong> is a small non-profit project for "
-#| "tracking utility usage and getting\n"
-#| "    basic consumption statistics."
 msgid ""
 "The <strong>Utilities Tracker</strong> is a small non-profit project for "
 "tracking utility usage and getting\n"
@@ -609,7 +605,7 @@ msgid "There are no records at this moment"
 msgstr "На даний момент записи відсутні"
 
 #: apps/records/templates/records/record_confirm_delete.html:4
-#: apps/records/templates/records/tables/actions.html:14
+#: apps/records/templates/records/tables/actions.html:23
 msgid "Delete record"
 msgstr "Видалити запис"
 
@@ -650,6 +646,13 @@ msgstr "Кінцеві показники"
 msgid "Cancel"
 msgstr "Відміна"
 
+#: apps/records/templates/records/record_payment_form.html:5
+#: apps/records/templates/records/record_payment_form.html:13
+#: apps/records/templates/records/tables/actions.html:14
+#| msgid "Add payment plan"
+msgid "Add payment"
+msgstr "Додати платіж"
+
 #: apps/records/templates/records/record_table.html:22
 msgid "Reset"
 msgstr "Скинути"
@@ -662,7 +665,12 @@ msgstr "Запис додано успішно"
 msgid "Record has been successfully updated"
 msgstr "Запис оновлено успішно"
 
-#: apps/records/views.py:139
+#: apps/records/views.py:143
+#| msgid "Home/apartment has been successfully added"
+msgid "Payment has been successfully added"
+msgstr "Платіж успішно додано"
+
+#: apps/records/views.py:149
 msgid "Record has been successfully deleted"
 msgstr "Запис видалено успішно"
 
@@ -696,11 +704,11 @@ msgstr "Зберегти зміни"
 msgid "Your profile has been successfully updated"
 msgstr "Вас профіль оновлено успішно"
 
-#: utilities_tracker/settings.py:213
+#: utilities_tracker/settings.py:230
 msgid "Ukrainian"
 msgstr "Українська"
 
-#: utilities_tracker/settings.py:214
+#: utilities_tracker/settings.py:231
 msgid "English"
 msgstr "Англійська"
 

@@ -110,3 +110,18 @@ class RecordUpdateForm(forms.ModelForm):
         self.fields["provider"].queryset = Provider.objects.filter(
             user_id=instance.user_id
         ).filter(id=instance.provider_id)
+
+
+class RecordPaymentForm(forms.ModelForm):
+    class Meta:
+        model = Record
+        fields = ("total_paid",)
+
+    def save(self, commit=True):
+        self.instance.is_paid = True
+
+        if commit:
+            self.instance.save(update_fields=["is_paid", "total_paid", "updated_at"])
+            return self.instance
+        else:
+            return super().save(commit=commit)

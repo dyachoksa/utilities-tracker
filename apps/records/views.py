@@ -15,7 +15,7 @@ from utilities_tracker.core.views import (
 )
 from apps.providers.models import Provider
 from .filters import RecordFilterSet
-from .forms import RecordForm, RecordUpdateForm
+from .forms import RecordForm, RecordUpdateForm, RecordPaymentForm
 from .models import Record
 from .tables import RecordTable
 
@@ -131,6 +131,16 @@ class RecordUpdateView(RecordCreateUpdateMixin, BaseUpdateView):
         context["provider"] = provider
         context["latest_record"] = provider.get_latest_record(self.object.record_date)
         return context
+
+
+class RecordPaymentView(BaseUpdateView):
+    model = Record
+    form_class = RecordPaymentForm
+    template_name = "records/record_payment_form.html"
+    change_event_name = "records-changed"
+    context_object_name = "record"
+    success_url = reverse_lazy("records:index")
+    success_message = _("Payment has been successfully added")
 
 
 class RecordDeleteView(BaseDeleteView):
