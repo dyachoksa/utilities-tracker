@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # Third-party apps
     "anymail",
+    "dbbackup",
     "django_bootstrap5",
     "django_extensions",
     "django_filters",
@@ -296,6 +297,15 @@ LOGGING = {
 
 
 # Other settings
+
+DBBACKUP_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+DBBACKUP_STORAGE_OPTIONS = {
+    "access_key": env("AWS_ACCESS_KEY_ID", default=""),
+    "secret_key": env("AWS_SECRET_ACCESS_KEY", default=""),
+    "bucket_name": env("AWS_S3_BACKUP_BUCKET_NAME", default="utilities-tracker"),
+    "default_acl": "private",
+}
 
 BOOTSTRAP5 = {
     "field_renderers": {
