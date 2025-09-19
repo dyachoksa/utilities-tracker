@@ -1,0 +1,16 @@
+{
+  "editor.rulers": [120],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "cSpell.words": [],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

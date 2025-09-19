@@ -1,0 +1,26 @@
+{
+  "printWidth": 120,
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": false,
+  "plugins": ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["clsx", "cn"],
+  "vueIndentScriptAndStyle": false,
+  "importOrderTypeScriptVersion": "5.0.0",
+  "importOrder": [
+    "<TYPES>^(node:)",
+    "<TYPES>",
+    "<TYPES>^[~]",
+    "<TYPES>^[.]",
+    "",
+    "<BUILTIN_MODULES>",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^~(/.*)$",
+    "",
+    "^(?!.*[.]css$)[./].*$",
+    "",
+    ".css$"
+  ]
+}
