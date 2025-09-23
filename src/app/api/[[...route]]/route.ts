@@ -4,6 +4,7 @@ import { requestId } from "hono/request-id";
 import { handle } from "hono/vercel";
 import { notFound } from "stoker/middlewares";
 
+import { routes } from "~/api";
 import { onError } from "~/api/middlewares/on-error";
 import { requireSession } from "~/api/middlewares/require-session";
 import { createRouter } from "~/lib/create-router";
@@ -34,6 +35,10 @@ app.get(
 );
 
 app.get("/health", (c) => c.json({ status: "ok", message: "Service is running", success: true }));
+
+for (const router of routes) {
+  app.route("/", router);
+}
 
 export const GET = handle(app);
 export const POST = handle(app);

@@ -20,7 +20,7 @@ type Props<TFieldValues extends FieldValues> = ControlProps<TFieldValues> &
   ComponentProps &
   Omit<React.ComponentPropsWithoutRef<"input">, keyof ComponentProps | "name">;
 
-export default function InputText<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
+export function InputText<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
   const { label, control, name, className, hint, description, ...rest } = props;
 
   return (

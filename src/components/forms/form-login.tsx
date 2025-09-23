@@ -7,8 +7,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import InputCheckbox from "~/components/inputs/input-checkbox";
-import InputText from "~/components/inputs/input-text";
+import { InputCheckbox } from "~/components/inputs/input-checkbox";
+import { InputText } from "~/components/inputs/input-text";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
 import { signIn } from "~/lib/auth-client";

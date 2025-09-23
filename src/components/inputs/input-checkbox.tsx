@@ -20,7 +20,7 @@ type Props<TFieldValues extends FieldValues> = ControlProps<TFieldValues> &
   ComponentProps &
   Omit<React.ComponentPropsWithoutRef<typeof Checkbox>, keyof ComponentProps | "name" | "checked" | "onCheckedChange">;
 
-export default function InputCheckbox<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
+export function InputCheckbox<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
   const { label, control, name, className, hint, description, ...rest } = props;
 
   return (
