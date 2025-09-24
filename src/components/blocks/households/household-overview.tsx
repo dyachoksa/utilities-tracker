@@ -2,6 +2,7 @@
 
 import { ErrorMessage } from "~/components/blocks/error-message";
 import { LoadingIndicator } from "~/components/blocks/loading-indicator";
+import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { useHousehold } from "~/hooks/use-household-queries";
 
 interface Props {
@@ -12,7 +13,7 @@ export const HouseholdOverview = ({ householdId }: Props) => {
   const { data, isLoading, error } = useHousehold(householdId);
 
   if (isLoading) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator className="h-32" />;
   }
 
   if (error || !data) {
@@ -20,16 +21,18 @@ export const HouseholdOverview = ({ householdId }: Props) => {
   }
 
   return (
-    <>
-      <h2 className="text-xl font-bold text-gray-800">{data.name}</h2>
-      <div className="flex items-baseline gap-2">
-        <p className="text-lg font-semibold text-gray-700">{data.address}</p>
-        {data.area && (
-          <p className="text-base text-gray-600">
-            ({data.area} m<sup>2</sup>)
-          </p>
-        )}
-      </div>
-    </>
+    <Card>
+      <CardHeader>
+        <CardTitle>{data.name}</CardTitle>
+        <CardDescription>
+          {data.address}
+          {data.area && (
+            <span className="text-gray-600">
+              ({data.area} m<sup>2</sup>)
+            </span>
+          )}
+        </CardDescription>
+      </CardHeader>
+    </Card>
   );
 };

@@ -9,7 +9,7 @@ import { Household } from "~/types/households";
 import { useDialogStore } from "./use-dialog-store";
 
 export const useHouseholdActions = (household?: Household) => {
-  const { openDialog } = useDialogStore(useShallow((state) => state));
+  const openDialog = useDialogStore(useShallow((state) => state.openDialog));
 
   const createHousehold = useCallback(() => {
     openDialog({
@@ -34,7 +34,7 @@ export const useHouseholdActions = (household?: Household) => {
 
     openDialog({
       dialogTitle: "Delete household",
-      dialogDescription: "Delete household and stop tracking utilities",
+      dialogDescription: "Delete household and stop tracking its utilities",
       dialogContent: <FormHouseholdDelete household={household} />,
     });
   }, [openDialog, household]);

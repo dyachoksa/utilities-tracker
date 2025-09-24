@@ -28,7 +28,7 @@ type Props<TFieldValues extends FieldValues> = ControlProps<TFieldValues> &
   ComponentProps &
   Omit<React.ComponentPropsWithoutRef<typeof Select>, keyof ComponentProps | "name">;
 
-export default function InputSelect<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
+export function InputSelect<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
   const { values, label, control, name, className, hint, description, placeholder, clearable, ...rest } = props;
 
   const [open, setOpen] = useState(false);

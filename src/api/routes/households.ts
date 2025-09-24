@@ -76,7 +76,7 @@ export const update = createRoute({
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Not found"),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdUUIDParamsSchema).or(createErrorSchema(HouseholdUpdateSchema)),
-      "Validation data"
+      "Validation error"
     ),
   },
 });

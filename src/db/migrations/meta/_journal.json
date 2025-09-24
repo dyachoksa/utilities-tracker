@@ -15,6 +15,13 @@
       "when": 1758296044645,
       "tag": "0001_add_households",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1758622010858,
+      "tag": "0002_add_providers_and_tariffs",
+      "breakpoints": true
     }
   ]
 }

@@ -1,7 +1,8 @@
 "use client";
 
-import type { Household } from "~/types/households";
+import type { Provider } from "~/types/providers";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -9,39 +10,45 @@ import { useShallow } from "zustand/shallow";
 
 import { Button } from "~/components/ui/button";
 import { useDialogStore } from "~/hooks/use-dialog-store";
-import { useDeleteHousehold } from "~/hooks/use-household-queries";
+import { fetchProvidersKey, useDeleteProvider } from "~/hooks/use-provider-queries";
 
 interface Props {
-  household: Household;
+  provider: Provider;
 }
 
-export const FormHouseholdDelete = ({ household }: Props) => {
+export function FormProviderDelete({ provider }: Props) {
   const closeDialog = useDialogStore(useShallow((state) => state.closeDialog));
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const action = useDeleteHousehold(household.id);
+  const action = useDeleteProvider(provider.id);
 
   const handleDelete = () => {
     action.mutate(undefined, {
-      onSuccess: () => {
+      onSuccess: async () => {
         closeDialog();
-        toast.success("Household deleted", {
-          description: `Household '${household.name}' has been successfully deleted`,
+        toast.success("Provider deleted", {
+          description: `Provider '${provider.name}' has been successfully deleted`,
         });
-        router.push("/app/households");
+
+        await queryClient.invalidateQueries({
+          queryKey: fetchProvidersKey({ householdId: provider.householdId }),
+          exact: true,
+        });
+        router.push(`/app/households/${provider.householdId}`);
       },
     });
   };
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-gray-800">Are you sure you want to delete household &apos;{household.name}&apos;?</p>
+      <p className="text-sm text-gray-800">Are you sure you want to delete provider &apos;{provider.name}&apos;?</p>
       <p className="text-sm text-gray-700">
         This action cannot be undone. All related data will be permanently removed.
       </p>
 
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row-reverse">
         <Button disabled={action.isPending} onClick={handleDelete}>
-          {action.isPending ? <Loader2Icon className="animate-spin" /> : null} Yes, delete household
+          {action.isPending ? <Loader2Icon className="animate-spin" /> : null} Yes, delete provider
         </Button>
         <Button type="button" variant="outline" onClick={closeDialog} disabled={action.isPending}>
           Cancel
@@ -49,4 +56,4 @@ export const FormHouseholdDelete = ({ household }: Props) => {
       </div>
     </div>
   );
-};
+}
