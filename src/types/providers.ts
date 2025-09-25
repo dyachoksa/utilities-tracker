@@ -1,6 +1,6 @@
-import { z } from "@hono/zod-openapi";
+import type { ProviderCreateSchema, ProviderSchema, ProviderUpdateSchema } from "~/schemas/providers";
 
-import { ProviderCreateSchema, ProviderSchema, ProviderUpdateSchema } from "~/schemas/providers";
+import { z } from "@hono/zod-openapi";
 
 export type Provider = z.infer<typeof ProviderSchema>;
 

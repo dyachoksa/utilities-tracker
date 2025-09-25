@@ -1,10 +1,12 @@
 import { boolean, date, decimal, index, pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
+import { tariffTypes } from "~/constants";
+
 import { users } from "./auth";
 import { id, timestamps } from "./common";
 import { providers } from "./providers";
 
-export const tariffType = pgEnum("tariff_type", ["counter-based", "fixed-rate", "area-based"]);
+export const tariffType = pgEnum("tariff_type", tariffTypes);
 
 export const tariffs = pgTable(
   "tariffs",

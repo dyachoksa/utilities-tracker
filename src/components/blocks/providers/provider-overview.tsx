@@ -5,12 +5,14 @@ import { LoadingIndicator } from "~/components/blocks/loading-indicator";
 import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { providerTypeLabels } from "~/constants";
 import { useProvider } from "~/hooks/use-provider-queries";
+import { cn } from "~/lib/utils";
 
 interface Props {
   providerId: string;
+  className?: string;
 }
 
-export const ProviderOverview = ({ providerId }: Props) => {
+export const ProviderOverview = ({ providerId, className }: Props) => {
   const { data, isLoading, error } = useProvider(providerId);
 
   if (isLoading) {
@@ -22,7 +24,7 @@ export const ProviderOverview = ({ providerId }: Props) => {
   }
 
   return (
-    <Card className="shadow-xs">
+    <Card className={cn("shadow-xs", className)}>
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>

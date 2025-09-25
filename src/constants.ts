@@ -17,3 +17,11 @@ export const providerTypeLabels: Record<(typeof providerTypes)[number], string> 
   maintenance: "Maintenance",
   other: "Other",
 };
+
+export const tariffTypes = ["counter-based", "fixed-rate", "area-based"] as const;
+
+export const tariffTypeOptions: { value: (typeof tariffTypes)[number]; label: string }[] = [
+  { value: "counter-based", label: "Counter-based" },
+  { value: "fixed-rate", label: "Fixed rate" },
+  { value: "area-based", label: "Area-based" },
+];

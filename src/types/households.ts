@@ -1,6 +1,6 @@
-import z from "zod";
+import type { HouseholdCreateSchema, HouseholdSchema, HouseholdUpdateSchema } from "~/schemas/households";
 
-import { HouseholdCreateSchema, HouseholdSchema, HouseholdUpdateSchema } from "~/schemas/households";
+import { z } from "@hono/zod-openapi";
 
 export type Household = z.infer<typeof HouseholdSchema>;
 

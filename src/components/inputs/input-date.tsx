@@ -29,7 +29,7 @@ type Props<TFieldValues extends FieldValues> = ControlProps<TFieldValues> &
     disabled?: boolean;
   };
 
-export default function InputDate<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
+export function InputDate<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
   const { label, control, name, className, hint, description, placeholder = "Pick a date", disabled, ...rest } = props;
 
   return (
