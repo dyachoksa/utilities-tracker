@@ -11,11 +11,16 @@ import { fetchUser } from "~/lib/auth";
 export default async function Household({ params }: PageProps<"/app/households/[id]">) {
   const { id } = await params;
 
+  const breadcrumb = [
+    { label: "Households", href: "/app/households" },
+    { label: "Household details", href: `/app/households/${id}`, isActive: true },
+  ];
+
   await fetchUser();
 
   return (
     <>
-      <Header title="Household">
+      <Header breadcrumb={breadcrumb}>
         <div>
           <HouseholdActions householdId={id} />
         </div>

@@ -16,7 +16,7 @@ export default async function AppLayout({ children }: Props) {
     <>
       <QueryProvider>
         <DialogStoreProvider>
-          <SidebarProvider style={{ "--header-height": "calc(var(--spacing) * 14)" } as React.CSSProperties}>
+          <SidebarProvider style={{ "--header-height": "calc(var(--spacing) * 12)" } as React.CSSProperties}>
             <Sidebar variant="inset" userName={user.name} userEmail={user.email} userImage={user.image} />
             <SidebarInset className="container">{children}</SidebarInset>
           </SidebarProvider>
