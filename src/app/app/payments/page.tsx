@@ -1,7 +1,6 @@
-import { PlusIcon } from "lucide-react";
-
+import { PaymentsTable } from "~/components/blocks/payments/payments-table";
+import { AddPaymentButton } from "~/components/elements/add-payment-button";
 import { Header } from "~/components/layouts/app/header";
-import { Button } from "~/components/ui/button";
 import { fetchUser } from "~/lib/auth";
 
 export default async function Payments() {
@@ -10,13 +9,11 @@ export default async function Payments() {
   return (
     <>
       <Header title="Payments">
-        <Button size="sm" variant="ghost">
-          <PlusIcon /> Add payment
-        </Button>
+        <AddPaymentButton variant="ghost" />
       </Header>
 
       <section className="@container/main p-4 md:p-6">
-        <p>Payments</p>
+        <PaymentsTable />
       </section>
     </>
   );

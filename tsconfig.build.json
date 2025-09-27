@@ -1,0 +1,13 @@
+{
+  // "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "files": ["src/lib/api.ts"],
+  "include": ["src/lib/api.ts"]
+}

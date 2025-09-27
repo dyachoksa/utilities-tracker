@@ -1,6 +1,7 @@
 import type { TariffInsertData, TariffUpdateData, TariffZoneInsertData, TariffZoneUpdateData } from "~/db/types";
 
-import { and, eq } from "drizzle-orm";
+import { formatISO } from "date-fns";
+import { and, eq, lte } from "drizzle-orm";
 
 import { db } from "~/db";
 import { tariffs, tariffZones } from "~/db/schemas";
@@ -17,6 +18,21 @@ export const getTariff = async (userId: string, tariffId: string) => {
     where: and(eq(tariffs.userId, userId), eq(tariffs.id, tariffId)),
     with: { tariffZones: true },
   });
+};
+
+export const getActiveTariff = async (userId: string, providerId: string) => {
+  const tariff = await db.query.tariffs.findFirst({
+    where: and(
+      eq(tariffs.userId, userId),
+      eq(tariffs.providerId, providerId),
+      eq(tariffs.isActive, true),
+      lte(tariffs.startDate, formatISO(new Date(), { representation: "date" }))
+    ),
+    orderBy: (tariffs, { desc }) => [desc(tariffs.startDate)],
+    with: { tariffZones: true },
+  });
+
+  return tariff || null;
 };
 
 export const getTariffZones = async (tariffId: string) => {

@@ -20,7 +20,7 @@ type Props<TFieldValues extends FieldValues> = ControlProps<TFieldValues> &
   ComponentProps &
   Omit<React.ComponentPropsWithoutRef<"textarea">, keyof ComponentProps | "name">;
 
-export default function InputTextarea<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
+export function InputTextarea<TFieldValues extends FieldValues>(props: Props<TFieldValues>) {
   const { label, control, name, className, hint, description, ...rest } = props;
 
   return (

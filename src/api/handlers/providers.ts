@@ -1,10 +1,19 @@
-import type { CreateRoute, GetRoute, ListRoute, RemoveRoute, UpdateRoute } from "~/api/routes/providers";
+import type {
+  CreateRoute,
+  GetActiveTariffRoute,
+  GetRoute,
+  ListRoute,
+  RemoveRoute,
+  UpdateRoute,
+} from "~/api/routes/providers";
 import type { AppRouteHandler } from "~/types/api";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
 import { toResponse } from "~/api/mappers/providers";
+import { toResponse as toTariffResponse } from "~/api/mappers/tariffs";
 import { createProvider, deleteProvider, getProvider, getProviders, updateProvider } from "~/services/providers";
+import { getActiveTariff as doGetActiveTariff } from "~/services/tariffs";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
   const user = c.get("user");
@@ -40,6 +49,25 @@ export const get: AppRouteHandler<GetRoute> = async (c) => {
   }
 
   return c.json(toResponse(provider), HttpStatusCodes.OK);
+};
+
+export const getActiveTariff: AppRouteHandler<GetActiveTariffRoute> = async (c) => {
+  const user = c.get("user");
+  const userId = user!.id;
+
+  const { id } = c.req.valid("param");
+
+  const provider = await getProvider(userId, id);
+  if (!provider) {
+    return c.json({ message: "Provider not found" }, HttpStatusCodes.NOT_FOUND);
+  }
+
+  const activeTariff = await doGetActiveTariff(userId, provider.id);
+  if (!activeTariff) {
+    return c.body(null, HttpStatusCodes.NO_CONTENT);
+  }
+
+  return c.json(toTariffResponse(activeTariff), HttpStatusCodes.OK);
 };
 
 export const update: AppRouteHandler<UpdateRoute> = async (c) => {

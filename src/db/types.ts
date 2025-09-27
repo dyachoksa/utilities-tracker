@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { households, providers, tariffs, tariffZones } from "./schemas";
+import { households, meterReadings, payments, providers, tariffs, tariffZones } from "./schemas";
 
 export const HouseholdSelectSchema = createSelectSchema(households);
 export type HouseholdSelectData = z.infer<typeof HouseholdSelectSchema>;
@@ -43,3 +43,33 @@ export type TariffInsertData = z.infer<typeof TariffInsertSchema>;
 
 export const TariffUpdateSchema = createUpdateSchema(tariffs);
 export type TariffUpdateData = z.infer<typeof TariffUpdateSchema>;
+
+export const PaymentSelectSchema = createSelectSchema(payments);
+export type PaymentSelectData = z.infer<typeof PaymentSelectSchema>;
+
+export const PaymentInsertSchema = createInsertSchema(payments);
+export type PaymentInsertData = z.infer<typeof PaymentInsertSchema>;
+
+export const PaymentUpdateSchema = createUpdateSchema(payments);
+export type PaymentUpdateData = z.infer<typeof PaymentUpdateSchema>;
+
+export const MeterReadingSelectSchema = createSelectSchema(meterReadings);
+export type MeterReadingSelectData = z.infer<typeof MeterReadingSelectSchema>;
+
+export const MeterReadingSelectWithTariffZoneSchema = MeterReadingSelectSchema.extend({
+  tariffZone: TariffZoneSelectSchema,
+});
+export type MeterReadingSelectWithTariffZoneData = z.infer<typeof MeterReadingSelectWithTariffZoneSchema>;
+
+export const MeterReadingInsertSchema = createInsertSchema(meterReadings);
+export type MeterReadingInsertData = z.infer<typeof MeterReadingInsertSchema>;
+
+export const MeterReadingUpdateSchema = createUpdateSchema(meterReadings);
+export type MeterReadingUpdateData = z.infer<typeof MeterReadingUpdateSchema>;
+
+export const PaymentSelectWithRelationsSchema = PaymentSelectSchema.extend({
+  household: HouseholdSelectSchema,
+  provider: ProviderSelectSchema,
+  meterReadings: MeterReadingSelectWithTariffZoneSchema.array(),
+});
+export type PaymentSelectWithRelationsData = z.infer<typeof PaymentSelectWithRelationsSchema>;

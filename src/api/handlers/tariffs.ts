@@ -1,9 +1,19 @@
-import type { CreateRoute, GetRoute, ListRoute, RemoveRoute, UpdateRoute } from "~/api/routes/tariffs";
+import type {
+  CreateRoute,
+  GetRoute,
+  LatestReadingsRoute,
+  ListRoute,
+  RemoveRoute,
+  UpdateRoute,
+} from "~/api/routes/tariffs";
+import type { MeterReadingSelectData } from "~/db/types";
 import type { AppRouteHandler } from "~/types/api";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
+import { toResponse as toMeterReadingResponse } from "~/api/mappers/meter-readings";
 import { toResponse } from "~/api/mappers/tariffs";
+import { getLatestReadings } from "~/services/meter-readings";
 import {
   createTariff,
   createTariffZones,
@@ -50,6 +60,27 @@ export const get: AppRouteHandler<GetRoute> = async (c) => {
   }
 
   return c.json(toResponse(tariff), HttpStatusCodes.OK);
+};
+
+export const latestReadings: AppRouteHandler<LatestReadingsRoute> = async (c) => {
+  const user = c.get("user");
+  const userId = user!.id;
+
+  const { id } = c.req.valid("param");
+  const tariff = await getTariff(userId, id);
+  if (!tariff) {
+    return c.json({ message: "Tariff not found" }, HttpStatusCodes.NOT_FOUND);
+  }
+
+  const readings: MeterReadingSelectData[] = [];
+  for (const tariffZone of tariff.tariffZones) {
+    const meterReading = await getLatestReadings(tariffZone.id);
+    if (!meterReading) continue;
+
+    readings.push(meterReading);
+  }
+
+  return c.json(readings.map(toMeterReadingResponse), HttpStatusCodes.OK);
 };
 
 export const update: AppRouteHandler<UpdateRoute> = async (c) => {

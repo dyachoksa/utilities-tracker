@@ -4,6 +4,7 @@ import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdUUIDParamsSchema } from "stoker/openapi/schemas";
 
 import { ProviderCreateSchema, ProviderSchema, ProviderUpdateSchema } from "~/schemas/providers";
+import { TariffSchema } from "~/schemas/tariffs";
 
 import { notFoundSchema } from "../schemas";
 
@@ -67,6 +68,25 @@ export const get = createRoute({
   },
 });
 
+export const getActiveTariff = createRoute({
+  tags,
+  path: `${basePath}/:id/active-tariff`,
+
+  method: "get",
+  summary: "Get active tariff",
+  description: "Retrieves the active tariff for a provider.",
+  operationId: "getActiveTariff",
+  request: {
+    params: IdUUIDParamsSchema,
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(TariffSchema, "Tariff"),
+    [HttpStatusCodes.NO_CONTENT]: { description: "No active tariff" },
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Not found"),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdUUIDParamsSchema), "Invalid ID"),
+  },
+});
+
 export const update = createRoute({
   tags,
   path: `${basePath}/:id`,
@@ -110,5 +130,6 @@ export const remove = createRoute({
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetRoute = typeof get;
+export type GetActiveTariffRoute = typeof getActiveTariff;
 export type UpdateRoute = typeof update;
 export type RemoveRoute = typeof remove;

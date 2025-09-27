@@ -1,7 +1,8 @@
+import type { TariffCreateData, TariffUpdateData } from "~/types/tariffs";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "~/lib/api";
-import { TariffCreateData, TariffUpdateData } from "~/types/tariffs";
 
 export const fetchTariffsKey = (providerId: string) => ["tariffs", { providerId }];
 
@@ -85,7 +86,7 @@ export const useDeleteTariff = (id: string, providerId: string) => {
         throw new Error("Failed to delete tariff");
       }
 
-      return res.json();
+      return;
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: fetchTariffsKey(providerId) });

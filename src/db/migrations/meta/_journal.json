@@ -22,6 +22,20 @@
       "when": 1758622010858,
       "tag": "0002_add_providers_and_tariffs",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1758800244367,
+      "tag": "0003_add_payments_and_meter_readings",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1758964932870,
+      "tag": "0004_alter_meter_readings",
+      "breakpoints": true
     }
   ]
 }

@@ -1,11 +1,13 @@
+import type { ProviderCreateData, ProviderUpdateData } from "~/types/providers";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "~/lib/api";
-import { ProviderCreateData, ProviderUpdateData } from "~/types/providers";
 
 export type FetchProvidersParams = {
   householdId?: string;
   id?: string;
+  sub?: string;
 };
 
 export const fetchProvidersKey = (params: FetchProvidersParams) => ["providers", params];
@@ -41,6 +43,33 @@ export const useProvider = (id: string) => {
 
       if (!res.ok) {
         throw new Error("Failed to fetch provider");
+      }
+
+      return res.json();
+    },
+  });
+};
+
+export const useProviderActiveTariff = (id: string) => {
+  return useQuery({
+    queryKey: fetchProvidersKey({ id, sub: "active-tariff" }),
+    queryFn: async () => {
+      const res = await api.providers[":id"]["active-tariff"].$get({ param: { id } });
+
+      if (res.status === 404) {
+        throw new Error("Provider not found");
+      }
+
+      if (res.status === 422) {
+        throw new Error("Incorrect provider ID");
+      }
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch active tariff");
+      }
+
+      if (res.status === 204) {
+        return null;
       }
 
       return res.json();
@@ -114,7 +143,7 @@ export const useDeleteProvider = (id: string) => {
         throw new Error("Failed to delete provider");
       }
 
-      return res.json();
+      return;
     },
   });
 };

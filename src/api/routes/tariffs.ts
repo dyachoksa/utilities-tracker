@@ -3,6 +3,7 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdUUIDParamsSchema } from "stoker/openapi/schemas";
 
+import { MeterReadingSchema } from "~/schemas/meter-readings";
 import { TariffCreateSchema, TariffSchema, TariffUpdateSchema } from "~/schemas/tariffs";
 
 import { notFoundSchema } from "../schemas";
@@ -71,6 +72,24 @@ export const get = createRoute({
   },
 });
 
+export const latestReadings = createRoute({
+  tags,
+  path: `${basePath}/:id/latest-readings`,
+
+  method: "get",
+  summary: "Get latest readings",
+  description: "Retrieves the latest meter readings for a tariff.",
+  operationId: "latestReadings",
+  request: {
+    params: IdUUIDParamsSchema,
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(z.array(MeterReadingSchema), "Meter readings"),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Not found"),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdUUIDParamsSchema), "Invalid ID"),
+  },
+});
+
 export const update = createRoute({
   tags,
   path: `${basePath}/:id`,
@@ -114,5 +133,6 @@ export const remove = createRoute({
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetRoute = typeof get;
+export type LatestReadingsRoute = typeof latestReadings;
 export type UpdateRoute = typeof update;
 export type RemoveRoute = typeof remove;
