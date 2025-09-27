@@ -5,13 +5,17 @@ import { handle } from "hono/vercel";
 import { notFound } from "stoker/middlewares";
 
 import { routes } from "~/api";
+import { logger } from "~/api/middlewares/logger";
 import { onError } from "~/api/middlewares/on-error";
 import { requireSession } from "~/api/middlewares/require-session";
 import { createRouter } from "~/lib/create-router";
 
 const app = createRouter().basePath("/api");
 
-app.use(requestId()).use(except(["/api/docs", "/api/schema", "/api/health"], requireSession()));
+app
+  .use(requestId())
+  .use(logger())
+  .use(except(["/api/docs", "/api/schema", "/api/health"], requireSession()));
 
 app.notFound(notFound);
 app.onError(onError);

@@ -1,26 +1,43 @@
 import type { TariffInsertData, TariffUpdateData, TariffZoneInsertData, TariffZoneUpdateData } from "~/db/types";
+import type { RequestIdOption } from "~/types/common";
 
 import { formatISO } from "date-fns";
 import { and, eq, lte } from "drizzle-orm";
 
 import { db } from "~/db";
 import { tariffs, tariffZones } from "~/db/schemas";
+import { logger } from "~/lib/logger";
 
-export const getTariffs = async (userId: string, providerId: string) => {
+type GetTariffsOptions = RequestIdOption;
+export const getTariffs = async (userId: string, providerId: string, options?: GetTariffsOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, providerId }, "Getting tariffs");
+
   return db.query.tariffs.findMany({
     where: and(eq(tariffs.userId, userId), eq(tariffs.providerId, providerId)),
     with: { tariffZones: true },
   });
 };
 
-export const getTariff = async (userId: string, tariffId: string) => {
+type GetTariffOptions = RequestIdOption;
+export const getTariff = async (userId: string, tariffId: string, options?: GetTariffOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, tariffId }, "Getting tariff details");
+
   return db.query.tariffs.findFirst({
     where: and(eq(tariffs.userId, userId), eq(tariffs.id, tariffId)),
     with: { tariffZones: true },
   });
 };
 
-export const getActiveTariff = async (userId: string, providerId: string) => {
+type GetActiveTariffOptions = RequestIdOption;
+export const getActiveTariff = async (userId: string, providerId: string, options?: GetActiveTariffOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, providerId }, "Getting active tariff");
+
   const tariff = await db.query.tariffs.findFirst({
     where: and(
       eq(tariffs.userId, userId),
@@ -35,13 +52,23 @@ export const getActiveTariff = async (userId: string, providerId: string) => {
   return tariff || null;
 };
 
-export const getTariffZones = async (tariffId: string) => {
+type GetTariffZonesOptions = RequestIdOption;
+export const getTariffZones = async (tariffId: string, options?: GetTariffZonesOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ tariffId }, "Getting tariff zones");
+
   return db.query.tariffZones.findMany({
     where: eq(tariffZones.tariffId, tariffId),
   });
 };
 
-export const createTariff = async (tariff: TariffInsertData) => {
+type CreateTariffOptions = RequestIdOption;
+export const createTariff = async (tariff: TariffInsertData, options?: CreateTariffOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ tariff }, "Creating tariff");
+
   const [result] = await db.insert(tariffs).values(tariff).returning();
 
   if (!result) {
@@ -51,7 +78,12 @@ export const createTariff = async (tariff: TariffInsertData) => {
   return result;
 };
 
-export const createTariffZone = async (tariffZone: TariffZoneInsertData) => {
+type CreateTariffZoneOptions = RequestIdOption;
+export const createTariffZone = async (tariffZone: TariffZoneInsertData, options?: CreateTariffZoneOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ tariffZone }, "Creating tariff zone");
+
   const [result] = await db.insert(tariffZones).values(tariffZone).returning();
 
   if (!result) {
@@ -61,7 +93,12 @@ export const createTariffZone = async (tariffZone: TariffZoneInsertData) => {
   return result;
 };
 
-export const createTariffZones = async (values: TariffZoneInsertData[]) => {
+type CreateTariffZonesOptions = RequestIdOption;
+export const createTariffZones = async (values: TariffZoneInsertData[], options?: CreateTariffZonesOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ values }, "Creating tariff zones");
+
   const result = await db.insert(tariffZones).values(values).returning();
 
   if (result.length === 0) {
@@ -75,7 +112,17 @@ export const createTariffZones = async (values: TariffZoneInsertData[]) => {
   return result;
 };
 
-export const updateTariff = async (userId: string, tariffId: string, tariff: TariffUpdateData) => {
+type UpdateTariffOptions = RequestIdOption;
+export const updateTariff = async (
+  userId: string,
+  tariffId: string,
+  tariff: TariffUpdateData,
+  options?: UpdateTariffOptions
+) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, tariffId, tariff }, "Updating tariff");
+
   const [result] = await db
     .update(tariffs)
     .set(tariff)
@@ -89,7 +136,17 @@ export const updateTariff = async (userId: string, tariffId: string, tariff: Tar
   return result;
 };
 
-export const updateTariffZone = async (tariffId: string, tariffZoneId: string, tariffZone: TariffZoneUpdateData) => {
+type UpdateTariffZoneOptions = RequestIdOption;
+export const updateTariffZone = async (
+  tariffId: string,
+  tariffZoneId: string,
+  tariffZone: TariffZoneUpdateData,
+  options?: UpdateTariffZoneOptions
+) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ tariffId, tariffZoneId, tariffZone }, "Updating tariff zone");
+
   const [result] = await db
     .update(tariffZones)
     .set(tariffZone)
@@ -103,7 +160,12 @@ export const updateTariffZone = async (tariffId: string, tariffZoneId: string, t
   return result;
 };
 
-export const deleteTariff = async (userId: string, tariffId: string) => {
+type DeleteTariffOptions = RequestIdOption;
+export const deleteTariff = async (userId: string, tariffId: string, options?: DeleteTariffOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, tariffId }, "Deleting tariff");
+
   const [result] = await db
     .delete(tariffs)
     .where(and(eq(tariffs.id, tariffId), eq(tariffs.userId, userId)))
@@ -116,7 +178,12 @@ export const deleteTariff = async (userId: string, tariffId: string) => {
   return result;
 };
 
-export const deleteTariffZone = async (tariffId: string, tariffZoneId: string) => {
+type DeleteTariffZoneOptions = RequestIdOption;
+export const deleteTariffZone = async (tariffId: string, tariffZoneId: string, options?: DeleteTariffZoneOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ tariffId, tariffZoneId }, "Deleting tariff zone");
+
   const [result] = await db
     .delete(tariffZones)
     .where(and(eq(tariffZones.id, tariffZoneId), eq(tariffZones.tariffId, tariffId)))
@@ -129,7 +196,12 @@ export const deleteTariffZone = async (tariffId: string, tariffZoneId: string) =
   return result;
 };
 
-export const deleteTariffZones = async (tariffId: string) => {
+type DeleteTariffZonesOptions = RequestIdOption;
+export const deleteTariffZones = async (tariffId: string, options?: DeleteTariffZonesOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ tariffId }, "Deleting tariff zones");
+
   await db.delete(tariffZones).where(eq(tariffZones.tariffId, tariffId));
 
   // note: should we care to check if any rows were deleted?

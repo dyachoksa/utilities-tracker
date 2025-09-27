@@ -1,9 +1,11 @@
 import type { PaymentInsertData } from "~/db/types";
+import type { RequestIdOption } from "~/types/common";
 
 import { and, eq } from "drizzle-orm";
 
 import { db } from "~/db";
 import { payments } from "~/db/schemas";
+import { logger } from "~/lib/logger";
 import { PaymentMarkAsPaidData } from "~/types/payments";
 
 export type GetPaymentsParams = {
@@ -14,7 +16,10 @@ export type GetPaymentsParams = {
   providerId?: string;
   tariffId?: string;
 };
-export const getPayments = async (params: GetPaymentsParams) => {
+type GetPaymentsOptions = RequestIdOption;
+export const getPayments = async (params: GetPaymentsParams, options?: GetPaymentsOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
   const { userId, page = 1, perPage = 25, householdId, providerId, tariffId } = params;
 
   let where = eq(payments.userId, userId);
@@ -30,6 +35,8 @@ export const getPayments = async (params: GetPaymentsParams) => {
   if (tariffId) {
     where = and(where, eq(payments.tariffId, tariffId))!;
   }
+
+  log.debug({ where }, "Getting payments");
 
   const items = await db.query.payments.findMany({
     where,
@@ -52,7 +59,12 @@ export const getPayments = async (params: GetPaymentsParams) => {
   return { items, total };
 };
 
-export const createPayment = async (data: PaymentInsertData) => {
+type CreatePaymentOptions = RequestIdOption;
+export const createPayment = async (data: PaymentInsertData, options?: CreatePaymentOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ data }, "Creating payment");
+
   const [payment] = await db.insert(payments).values(data).returning();
 
   if (!payment) {
@@ -62,7 +74,17 @@ export const createPayment = async (data: PaymentInsertData) => {
   return payment;
 };
 
-export const markPaymentAsPaid = async (userId: string, paymentId: string, data: PaymentMarkAsPaidData) => {
+type MarkPaymentAsPaidOptions = RequestIdOption;
+export const markPaymentAsPaid = async (
+  userId: string,
+  paymentId: string,
+  data: PaymentMarkAsPaidData,
+  options?: MarkPaymentAsPaidOptions
+) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, paymentId, data }, "Marking payment as paid");
+
   const [payment] = await db
     .update(payments)
     .set({ ...data, isPaid: true })
@@ -72,7 +94,12 @@ export const markPaymentAsPaid = async (userId: string, paymentId: string, data:
   return payment || null;
 };
 
-export const deletePayment = async (userId: string, paymentId: string) => {
+type DeletePaymentOptions = RequestIdOption;
+export const deletePayment = async (userId: string, paymentId: string, options?: DeletePaymentOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, paymentId }, "Deleting payment");
+
   const [payment] = await db
     .delete(payments)
     .where(and(eq(payments.id, paymentId), eq(payments.userId, userId)))

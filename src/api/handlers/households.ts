@@ -10,7 +10,7 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
   const user = c.get("user");
   const userId = user!.id;
 
-  const households = await getHouseholds(userId);
+  const households = await getHouseholds(userId, { requestId: c.get("requestId") });
 
   return c.json(households.map(toResponse));
 };
@@ -21,7 +21,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 
   const data = c.req.valid("json");
 
-  const household = await createHousehold({ ...data, userId });
+  const household = await createHousehold({ ...data, userId }, { requestId: c.get("requestId") });
 
   return c.json(toResponse(household), HttpStatusCodes.CREATED);
 };
@@ -32,7 +32,7 @@ export const get: AppRouteHandler<GetRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const household = await getHousehold(userId, id);
+  const household = await getHousehold(userId, id, { requestId: c.get("requestId") });
   if (!household) {
     return c.json({ message: "Household not found" }, HttpStatusCodes.NOT_FOUND);
   }
@@ -48,7 +48,7 @@ export const update: AppRouteHandler<UpdateRoute> = async (c) => {
 
   const data = c.req.valid("json");
 
-  const household = await updateHousehold(userId, id, data);
+  const household = await updateHousehold(userId, id, data, { requestId: c.get("requestId") });
   if (!household) {
     return c.json({ message: "Household not found" }, HttpStatusCodes.NOT_FOUND);
   }
@@ -62,7 +62,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const household = await deleteHousehold(userId, id);
+  const household = await deleteHousehold(userId, id, { requestId: c.get("requestId") });
   if (!household) {
     return c.json({ message: "Household not found" }, HttpStatusCodes.NOT_FOUND);
   }

@@ -7,6 +7,9 @@ import { redirect } from "next/navigation";
 import { v7 as uuidV7 } from "uuid";
 
 import { db } from "~/db";
+import { logger } from "~/lib/logger";
+
+type LoggerLevel = "info" | "warn" | "error" | "debug";
 
 export const auth = betterAuth({
   appName: "Utilities Tracker",
@@ -14,6 +17,13 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg", usePlural: true }),
 
   plugins: [openAPI(), nextCookies()],
+
+  logger: {
+    level: (process.env.LOG_LEVEL as LoggerLevel) || "info",
+    log: (level, message, ...args) => {
+      logger[level]({ args, service: "better-auth" }, message);
+    },
+  },
 
   advanced: {
     useSecureCookies: true,

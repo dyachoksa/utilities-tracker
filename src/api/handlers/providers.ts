@@ -21,7 +21,7 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 
   const { householdId } = c.req.valid("query");
 
-  const providers = await getProviders(userId, householdId);
+  const providers = await getProviders(userId, householdId, { requestId: c.get("requestId") });
 
   return c.json(providers.map(toResponse));
 };
@@ -32,7 +32,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 
   const data = c.req.valid("json");
 
-  const provider = await createProvider({ ...data, userId });
+  const provider = await createProvider({ ...data, userId }, { requestId: c.get("requestId") });
 
   return c.json(toResponse(provider), HttpStatusCodes.CREATED);
 };
@@ -43,7 +43,7 @@ export const get: AppRouteHandler<GetRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const provider = await getProvider(userId, id);
+  const provider = await getProvider(userId, id, { requestId: c.get("requestId") });
   if (!provider) {
     return c.json({ message: "Provider not found" }, HttpStatusCodes.NOT_FOUND);
   }
@@ -57,12 +57,12 @@ export const getActiveTariff: AppRouteHandler<GetActiveTariffRoute> = async (c) 
 
   const { id } = c.req.valid("param");
 
-  const provider = await getProvider(userId, id);
+  const provider = await getProvider(userId, id, { requestId: c.get("requestId") });
   if (!provider) {
     return c.json({ message: "Provider not found" }, HttpStatusCodes.NOT_FOUND);
   }
 
-  const activeTariff = await doGetActiveTariff(userId, provider.id);
+  const activeTariff = await doGetActiveTariff(userId, provider.id, { requestId: c.get("requestId") });
   if (!activeTariff) {
     return c.body(null, HttpStatusCodes.NO_CONTENT);
   }
@@ -78,7 +78,7 @@ export const update: AppRouteHandler<UpdateRoute> = async (c) => {
 
   const data = c.req.valid("json");
 
-  const provider = await updateProvider(userId, id, data);
+  const provider = await updateProvider(userId, id, data, { requestId: c.get("requestId") });
   if (!provider) {
     return c.json({ message: "Provider not found" }, HttpStatusCodes.NOT_FOUND);
   }
@@ -92,7 +92,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const provider = await deleteProvider(userId, id);
+  const provider = await deleteProvider(userId, id, { requestId: c.get("requestId") });
   if (!provider) {
     return c.json({ message: "Provider not found" }, HttpStatusCodes.NOT_FOUND);
   }

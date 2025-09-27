@@ -1,21 +1,35 @@
 import type { HouseholdInsertData, HouseholdUpdateData } from "~/db/types";
+import type { RequestIdOption } from "~/types/common";
 
 import { and, eq } from "drizzle-orm";
 
 import { db } from "~/db";
 import { households } from "~/db/schemas";
+import { logger } from "~/lib/logger";
 
-export const getHouseholds = async (userId: string) => {
+type GetHouseholdsOptions = RequestIdOption;
+export const getHouseholds = async (userId: string, options?: GetHouseholdsOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId }, "Getting households");
   return db.query.households.findMany({ where: eq(households.userId, userId) });
 };
 
-export const getHousehold = async (userId: string, householdId: string) => {
+type GetHouseholdOptions = RequestIdOption;
+export const getHousehold = async (userId: string, householdId: string, options?: GetHouseholdOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, householdId }, "Getting household");
   return (
     db.query.households.findFirst({ where: and(eq(households.userId, userId), eq(households.id, householdId)) }) ?? null
   );
 };
 
-export const createHousehold = async (household: HouseholdInsertData) => {
+type CreateHouseholdOptions = RequestIdOption;
+export const createHousehold = async (household: HouseholdInsertData, options?: CreateHouseholdOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ household }, "Creating household");
   const [result] = await db.insert(households).values(household).returning();
 
   if (!result) {
@@ -25,7 +39,16 @@ export const createHousehold = async (household: HouseholdInsertData) => {
   return result;
 };
 
-export const updateHousehold = async (userId: string, householdId: string, household: HouseholdUpdateData) => {
+type UpdateHouseholdOptions = RequestIdOption;
+export const updateHousehold = async (
+  userId: string,
+  householdId: string,
+  household: HouseholdUpdateData,
+  options?: UpdateHouseholdOptions
+) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, householdId, household }, "Updating household");
   const [result] = await db
     .update(households)
     .set(household)
@@ -39,7 +62,11 @@ export const updateHousehold = async (userId: string, householdId: string, house
   return result;
 };
 
-export const deleteHousehold = async (userId: string, householdId: string) => {
+type DeleteHouseholdOptions = RequestIdOption;
+export const deleteHousehold = async (userId: string, householdId: string, options?: DeleteHouseholdOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ userId, householdId }, "Deleting household");
   const [result] = await db
     .delete(households)
     .where(and(eq(households.id, householdId), eq(households.userId, userId)))

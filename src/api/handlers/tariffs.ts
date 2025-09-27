@@ -31,7 +31,7 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 
   const { providerId } = c.req.valid("query");
 
-  const tariffs = await getTariffs(userId, providerId);
+  const tariffs = await getTariffs(userId, providerId, { requestId: c.get("requestId") });
 
   return c.json(tariffs.map(toResponse), HttpStatusCodes.OK);
 };
@@ -42,8 +42,11 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 
   const { tariffZones: tariffZonesData, ...data } = c.req.valid("json");
 
-  const tariff = await createTariff({ ...data, userId });
-  const tariffZones = await createTariffZones(tariffZonesData.map((zone) => ({ ...zone, tariffId: tariff.id })));
+  const tariff = await createTariff({ ...data, userId }, { requestId: c.get("requestId") });
+  const tariffZones = await createTariffZones(
+    tariffZonesData.map((zone) => ({ ...zone, tariffId: tariff.id })),
+    { requestId: c.get("requestId") }
+  );
 
   return c.json(toResponse({ ...tariff, tariffZones }), HttpStatusCodes.CREATED);
 };
@@ -54,7 +57,7 @@ export const get: AppRouteHandler<GetRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const tariff = await getTariff(userId, id);
+  const tariff = await getTariff(userId, id, { requestId: c.get("requestId") });
   if (!tariff) {
     return c.json({ message: "Tariff not found" }, HttpStatusCodes.NOT_FOUND);
   }
@@ -63,18 +66,20 @@ export const get: AppRouteHandler<GetRoute> = async (c) => {
 };
 
 export const latestReadings: AppRouteHandler<LatestReadingsRoute> = async (c) => {
+  const requestId = c.get("requestId");
+
   const user = c.get("user");
   const userId = user!.id;
 
   const { id } = c.req.valid("param");
-  const tariff = await getTariff(userId, id);
+  const tariff = await getTariff(userId, id, { requestId });
   if (!tariff) {
     return c.json({ message: "Tariff not found" }, HttpStatusCodes.NOT_FOUND);
   }
 
   const readings: MeterReadingSelectData[] = [];
   for (const tariffZone of tariff.tariffZones) {
-    const meterReading = await getLatestReadings(tariffZone.id);
+    const meterReading = await getLatestReadings(tariffZone.id, { requestId });
     if (!meterReading) continue;
 
     readings.push(meterReading);
@@ -84,6 +89,8 @@ export const latestReadings: AppRouteHandler<LatestReadingsRoute> = async (c) =>
 };
 
 export const update: AppRouteHandler<UpdateRoute> = async (c) => {
+  const requestId = c.get("requestId");
+
   const user = c.get("user");
   const userId = user!.id;
 
@@ -91,15 +98,18 @@ export const update: AppRouteHandler<UpdateRoute> = async (c) => {
 
   const { tariffZones: tariffZonesData, ...data } = c.req.valid("json");
 
-  const tariff = await updateTariff(userId, id, data);
+  const tariff = await updateTariff(userId, id, data, { requestId });
   if (!tariff) {
     return c.json({ message: "Tariff not found" }, HttpStatusCodes.NOT_FOUND);
   }
 
-  let tariffZones = await getTariffZones(tariff.id);
+  let tariffZones = await getTariffZones(tariff.id, { requestId });
   if (tariffZonesData?.length) {
-    await deleteTariffZones(tariff.id);
-    tariffZones = await createTariffZones(tariffZonesData.map((zone) => ({ ...zone, tariffId: tariff.id })));
+    await deleteTariffZones(tariff.id, { requestId });
+    tariffZones = await createTariffZones(
+      tariffZonesData.map((zone) => ({ ...zone, tariffId: tariff.id })),
+      { requestId }
+    );
   }
 
   return c.json(toResponse({ ...tariff, tariffZones }), HttpStatusCodes.OK);
@@ -111,7 +121,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const tariff = await deleteTariff(userId, id);
+  const tariff = await deleteTariff(userId, id, { requestId: c.get("requestId") });
   if (!tariff) {
     return c.json({ message: "Tariff not found" }, HttpStatusCodes.NOT_FOUND);
   }

@@ -16,7 +16,10 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 
   const { providerId, tariffId, householdId, page, perPage } = c.req.valid("query");
 
-  const { items, total } = await getPayments({ userId, providerId, tariffId, householdId, page, perPage });
+  const { items, total } = await getPayments(
+    { userId, providerId, tariffId, householdId, page, perPage },
+    { requestId: c.get("requestId") }
+  );
 
   return c.json(
     {
@@ -28,17 +31,19 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
+  const requestId = c.get("requestId");
+
   const user = c.get("user");
   const userId = user!.id;
 
   const { meterReadings, ...data } = c.req.valid("json");
 
-  const provider = await getProvider(userId, data.providerId);
+  const provider = await getProvider(userId, data.providerId, { requestId });
   if (!provider) {
     return c.json({ message: "Provider not found" }, HttpStatusCodes.BAD_REQUEST);
   }
 
-  const tariff = await getActiveTariff(userId, data.providerId);
+  const tariff = await getActiveTariff(userId, data.providerId, { requestId });
   if (!tariff) {
     return c.json({ message: "No active tariffs found for provider" }, HttpStatusCodes.BAD_REQUEST);
   }
@@ -60,7 +65,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     } else if (tariff.tariffType === "area-based") {
       // Household at this point should always be defined
       // if not - database does not work correctly or has broken relations
-      const household = (await getHousehold(userId, provider.householdId))!;
+      const household = (await getHousehold(userId, provider.householdId, { requestId }))!;
       amount = (
         Number(household.area || "0") * tariff.tariffZones.reduce((acc, zone) => acc + Number(zone.price), 0)
       ).toFixed(2);
@@ -74,18 +79,22 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     paidAmount = "0.00";
   }
 
-  const payment = await createPayment({
-    ...data,
-    amount,
-    paidAmount,
-    userId,
-    householdId: provider.householdId,
-    tariffId: tariff.id,
-  });
+  const payment = await createPayment(
+    {
+      ...data,
+      amount,
+      paidAmount,
+      userId,
+      householdId: provider.householdId,
+      tariffId: tariff.id,
+    },
+    { requestId }
+  );
 
   if (meterReadings && meterReadings.length > 0) {
     await createMeterReadings(
-      meterReadings.map((reading) => ({ ...reading, paymentId: payment.id, providerId: provider.id }))
+      meterReadings.map((reading) => ({ ...reading, paymentId: payment.id, providerId: provider.id })),
+      { requestId }
     );
   }
 
@@ -99,7 +108,7 @@ export const markAsPaid: AppRouteHandler<MarkAsPaidRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const data = c.req.valid("json");
 
-  const payment = await markPaymentAsPaid(userId, id, data);
+  const payment = await markPaymentAsPaid(userId, id, data, { requestId: c.get("requestId") });
   if (!payment) {
     return c.json({ message: "Payment not found" }, HttpStatusCodes.NOT_FOUND);
   }
@@ -113,7 +122,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 
   const { id } = c.req.valid("param");
 
-  const payment = await deletePayment(userId, id);
+  const payment = await deletePayment(userId, id, { requestId: c.get("requestId") });
   if (!payment) {
     return c.json({ message: "Payment not found" }, HttpStatusCodes.NOT_FOUND);
   }
