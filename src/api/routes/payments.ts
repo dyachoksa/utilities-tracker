@@ -1,11 +1,15 @@
-import { createRoute, z } from "@hono/zod-openapi";
+import { createRoute } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, createMessageObjectSchema, IdUUIDParamsSchema } from "stoker/openapi/schemas";
 
-import { PaymentCreateSchema, PaymentMarkAsPaidSchema, PaymentSchema, PaymentsListSchema } from "~/schemas/payments";
-
-import { PaginationQuerySchema } from "../schemas";
+import {
+  PaymentCreateSchema,
+  PaymentListQuerySchema,
+  PaymentMarkAsPaidSchema,
+  PaymentSchema,
+  PaymentsListSchema,
+} from "~/schemas/payments";
 
 export const tags = ["Payments"];
 
@@ -20,16 +24,16 @@ export const list = createRoute({
   description: "Retrieves a list of payments for the authenticated user.",
   operationId: "listPayments",
   request: {
-    query: PaginationQuerySchema.extend({
-      providerId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
-      tariffId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
-      householdId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
-    }).openapi("ListPaymentsQuery"),
+    query: PaymentListQuerySchema,
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(PaymentsListSchema, "List of payments"),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       createMessageObjectSchema("Invalid query parameters"),
+      "Invalid query parameters"
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(PaymentListQuerySchema),
       "Invalid query parameters"
     ),
   },

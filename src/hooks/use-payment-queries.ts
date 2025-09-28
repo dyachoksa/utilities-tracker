@@ -9,6 +9,7 @@ export type FetchPaymentsParams = {
   perPage: number;
   householdId?: string;
   providerId?: string;
+  isPaid?: boolean;
 };
 
 export const fetchPaymentsKey = (params: FetchPaymentsParams) => ["payments", params];

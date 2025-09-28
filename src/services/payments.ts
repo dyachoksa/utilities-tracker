@@ -6,23 +6,20 @@ import { and, eq } from "drizzle-orm";
 import { db } from "~/db";
 import { payments } from "~/db/schemas";
 import { logger } from "~/lib/logger";
-import { PaymentMarkAsPaidData } from "~/types/payments";
+import { PaymentListQueryParams, PaymentMarkAsPaidData } from "~/types/payments";
 
-export type GetPaymentsParams = {
-  userId: string;
-  page?: number;
-  perPage?: number;
-  householdId?: string;
-  providerId?: string;
-  tariffId?: string;
-};
+type GetPaymentsParams = PaymentListQueryParams & { userId: string };
 type GetPaymentsOptions = RequestIdOption;
 export const getPayments = async (params: GetPaymentsParams, options?: GetPaymentsOptions) => {
   const log = logger.child({ reqId: options?.requestId });
 
-  const { userId, page = 1, perPage = 25, householdId, providerId, tariffId } = params;
+  const { userId, page = 1, perPage = 25, householdId, providerId, tariffId, isPaid } = params;
 
   let where = eq(payments.userId, userId);
+
+  if (isPaid !== undefined) {
+    where = and(where, eq(payments.isPaid, isPaid))!;
+  }
 
   if (householdId) {
     where = and(where, eq(payments.householdId, householdId))!;

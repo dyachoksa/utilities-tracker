@@ -14,12 +14,9 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
   const user = c.get("user");
   const userId = user!.id;
 
-  const { providerId, tariffId, householdId, page, perPage } = c.req.valid("query");
+  const { page, perPage, ...filters } = c.req.valid("query");
 
-  const { items, total } = await getPayments(
-    { userId, providerId, tariffId, householdId, page, perPage },
-    { requestId: c.get("requestId") }
-  );
+  const { items, total } = await getPayments({ userId, ...filters, page, perPage }, { requestId: c.get("requestId") });
 
   return c.json(
     {

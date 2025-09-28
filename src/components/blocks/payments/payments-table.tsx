@@ -16,13 +16,14 @@ import { PaymentRow } from "./payment-row";
 interface Props {
   householdId?: string;
   providerId?: string;
+  isPaid?: boolean;
 }
 
-export const PaymentsTable = ({ householdId, providerId }: Props) => {
+export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(25);
 
-  const { data, isLoading, error } = usePayments({ householdId, providerId, page, perPage });
+  const { data, isLoading, error } = usePayments({ householdId, providerId, page, perPage, isPaid });
 
   const perPageId = useId();
 

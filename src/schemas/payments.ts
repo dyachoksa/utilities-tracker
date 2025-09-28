@@ -1,10 +1,17 @@
 import { z } from "@hono/zod-openapi";
 
-import { PaginationMetaSchema } from "~/api/schemas";
+import { PaginationMetaSchema, PaginationQuerySchema } from "~/api/schemas";
 
 import { HouseholdSchema } from "./households";
 import { MeterReadingCreateSchema, MeterReadingWithTariffZoneSchema } from "./meter-readings";
 import { ProviderSchema } from "./providers";
+
+export const PaymentListQuerySchema = PaginationQuerySchema.extend({
+  providerId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
+  tariffId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
+  householdId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
+  isPaid: z.coerce.boolean().optional().openapi({ example: true }),
+}).openapi("ListPaymentsQuery");
 
 export const PaymentSchema = z
   .object({

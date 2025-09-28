@@ -1,5 +1,6 @@
 import type {
   PaymentCreateSchema,
+  PaymentListQuerySchema,
   PaymentMarkAsPaidSchema,
   PaymentSchema,
   PaymentsListSchema,
@@ -7,6 +8,8 @@ import type {
 } from "~/schemas/payments";
 
 import { z } from "@hono/zod-openapi";
+
+export type PaymentListQueryParams = z.infer<typeof PaymentListQuerySchema>;
 
 export type Payment = z.infer<typeof PaymentSchema>;
 
