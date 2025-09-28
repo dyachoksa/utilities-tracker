@@ -33,7 +33,7 @@ export const getPayments = async (params: GetPaymentsParams, options?: GetPaymen
     where = and(where, eq(payments.tariffId, tariffId))!;
   }
 
-  log.debug({ where }, "Getting payments");
+  log.debug({ params }, "Getting payments");
 
   const items = await db.query.payments.findMany({
     where,

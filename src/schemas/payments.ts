@@ -10,7 +10,10 @@ export const PaymentListQuerySchema = PaginationQuerySchema.extend({
   providerId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
   tariffId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
   householdId: z.uuid().optional().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
-  isPaid: z.coerce.boolean().optional().openapi({ example: true }),
+  isPaid: z
+    .union([z.literal("true").transform(() => true), z.literal("false").transform(() => false), z.boolean()])
+    .optional()
+    .openapi({ example: true }),
 }).openapi("ListPaymentsQuery");
 
 export const PaymentSchema = z

@@ -5,13 +5,12 @@ import type { PaymentWithRelations } from "~/types/payments";
 import { CheckIcon, HandCoinsIcon } from "lucide-react";
 
 import { PaymentActions } from "~/components/dropdowns/payment-actions";
-import { Badge } from "~/components/ui/badge";
+import { ProviderBadge } from "~/components/elements/provider-badge";
 import { Button } from "~/components/ui/button";
 import { TableCell, TableRow } from "~/components/ui/table";
-import { providerTypeLabels } from "~/constants";
 import { useDefaultCurrency } from "~/hooks/use-default-currency";
 import { usePaymentActions } from "~/hooks/use-payment-actions";
-import { formatCurrency } from "~/lib/formatters";
+import { formatCurrency, formatMonth } from "~/lib/formatters";
 
 export const PaymentRow = ({ payment }: { payment: PaymentWithRelations }) => {
   const currency = useDefaultCurrency();
@@ -20,13 +19,11 @@ export const PaymentRow = ({ payment }: { payment: PaymentWithRelations }) => {
 
   return (
     <TableRow className="hover:bg-transparent">
-      <TableCell>{payment.paymentPeriod}</TableCell>
+      <TableCell>{formatMonth(payment.paymentPeriod)}</TableCell>
       <TableCell>{payment.household.name}</TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="border-blue-400 text-blue-400">
-            {providerTypeLabels[payment.provider.providerType]}
-          </Badge>
+          <ProviderBadge provider={payment.provider} />
           <p>{payment.provider.name}</p>
         </div>
       </TableCell>
