@@ -1,3 +1,4 @@
+import { ChartPaymentsByMonth } from "~/components/blocks/dashboard/chart-payments-by-month";
 import { PaymentsTable } from "~/components/blocks/payments/payments-table";
 import { ProviderOverview } from "~/components/blocks/providers/provider-overview";
 import { SectionHeader } from "~/components/blocks/section-header";
@@ -31,6 +32,8 @@ export default async function Provider({ params }: PageProps<"/app/households/[i
           <ProviderOverview providerId={providerId} />
           <TariffsView providerId={providerId} className="md:col-span-2" />
         </div>
+
+        <ChartPaymentsByMonth providerId={providerId} />
 
         <div className="space-y-1">
           <SectionHeader title="Payments">

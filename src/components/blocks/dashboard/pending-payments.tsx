@@ -29,8 +29,8 @@ export const PendingPayments = ({ className }: Props) => {
         </CardAction>
       </CardHeader>
 
-      <CardContent>
-        <Table>
+      <CardContent className="flex-grow">
+        <Table className="h-full">
           <TableBody>
             {isLoading && (
               <TableRow className="hover:bg-transparent">

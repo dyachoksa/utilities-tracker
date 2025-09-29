@@ -1,3 +1,3 @@
-import { householdsRouter, paymentsRouter, providersRouter, tariffsRouter } from "./routers";
+import { householdsRouter, paymentsRouter, providersRouter, statsRouter, tariffsRouter } from "./routers";
 
-export const routes = [householdsRouter, providersRouter, tariffsRouter, paymentsRouter] as const;
+export const routes = [householdsRouter, providersRouter, tariffsRouter, paymentsRouter, statsRouter] as const;

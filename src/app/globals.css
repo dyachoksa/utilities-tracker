@@ -19,6 +19,7 @@
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
 
+  --color-chart-primary: var(--chart-primary);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -55,6 +56,9 @@
 }
 
 :root {
+  --random-colors:
+    #ffe082, #90caf9, #cfd8dc, #a5d6a7, #ffab91, #4dd0e1, #fff176, #81d4fa, #ff8a65, #aed581, #b0bec5, #aec6cf, #23cc71;
+
   --radius: 0.375rem;
 
   --background: oklch(0.967 0.003 264.542);
@@ -83,6 +87,7 @@
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.623 0.214 259.815);
 
+  --chart-primary: oklch(0.623 0.214 259.815);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);

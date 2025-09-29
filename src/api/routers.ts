@@ -3,10 +3,12 @@ import { createRouter } from "~/lib/create-router";
 import * as householdHandlers from "./handlers/households";
 import * as paymentHandlers from "./handlers/payments";
 import * as providerHandlers from "./handlers/providers";
+import * as statsHandlers from "./handlers/stats";
 import * as tariffHandlers from "./handlers/tariffs";
 import * as householdRoutes from "./routes/households";
 import * as paymentRoutes from "./routes/payments";
 import * as providerRoutes from "./routes/providers";
+import * as statsRoutes from "./routes/stats";
 import * as tariffRoutes from "./routes/tariffs";
 
 export const householdsRouter = createRouter()
@@ -37,3 +39,7 @@ export const paymentsRouter = createRouter()
   .openapi(paymentRoutes.create, paymentHandlers.create)
   .openapi(paymentRoutes.markAsPaid, paymentHandlers.markAsPaid)
   .openapi(paymentRoutes.remove, paymentHandlers.remove);
+
+export const statsRouter = createRouter()
+  .openapi(statsRoutes.paymentsByType, statsHandlers.paymentsByType)
+  .openapi(statsRoutes.paymentsByMonths, statsHandlers.paymentsByMonths);

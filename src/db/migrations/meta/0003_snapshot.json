@@ -132,12 +132,8 @@
           "name": "accounts_user_id_users_id_fk",
           "tableFrom": "accounts",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -225,12 +221,8 @@
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -240,9 +232,7 @@
         "sessions_token_unique": {
           "name": "sessions_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -306,9 +296,7 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -460,12 +448,8 @@
           "name": "households_user_id_users_id_fk",
           "tableFrom": "households",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -583,12 +567,8 @@
           "name": "meter_readings_provider_id_providers_id_fk",
           "tableFrom": "meter_readings",
           "tableTo": "providers",
-          "columnsFrom": [
-            "provider_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["provider_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -596,12 +576,8 @@
           "name": "meter_readings_tariff_zone_id_tariff_zones_id_fk",
           "tableFrom": "meter_readings",
           "tableTo": "tariff_zones",
-          "columnsFrom": [
-            "tariff_zone_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tariff_zone_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -780,12 +756,8 @@
           "name": "payments_user_id_users_id_fk",
           "tableFrom": "payments",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -793,12 +765,8 @@
           "name": "payments_household_id_households_id_fk",
           "tableFrom": "payments",
           "tableTo": "households",
-          "columnsFrom": [
-            "household_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["household_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -806,12 +774,8 @@
           "name": "payments_provider_id_providers_id_fk",
           "tableFrom": "payments",
           "tableTo": "providers",
-          "columnsFrom": [
-            "provider_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["provider_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -819,12 +783,8 @@
           "name": "payments_tariff_id_tariffs_id_fk",
           "tableFrom": "payments",
           "tableTo": "tariffs",
-          "columnsFrom": [
-            "tariff_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tariff_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -941,12 +901,8 @@
           "name": "providers_user_id_users_id_fk",
           "tableFrom": "providers",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -954,12 +910,8 @@
           "name": "providers_household_id_households_id_fk",
           "tableFrom": "providers",
           "tableTo": "households",
-          "columnsFrom": [
-            "household_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["household_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1041,12 +993,8 @@
           "name": "tariff_zones_tariff_id_tariffs_id_fk",
           "tableFrom": "tariff_zones",
           "tableTo": "tariffs",
-          "columnsFrom": [
-            "tariff_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tariff_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1170,12 +1118,8 @@
           "name": "tariffs_user_id_users_id_fk",
           "tableFrom": "tariffs",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1183,12 +1127,8 @@
           "name": "tariffs_provider_id_providers_id_fk",
           "tableFrom": "tariffs",
           "tableTo": "providers",
-          "columnsFrom": [
-            "provider_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["provider_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1204,23 +1144,12 @@
     "public.provider_type": {
       "name": "provider_type",
       "schema": "public",
-      "values": [
-        "natural_gas",
-        "electricity",
-        "water",
-        "heating",
-        "maintenance",
-        "other"
-      ]
+      "values": ["natural_gas", "electricity", "water", "heating", "maintenance", "other"]
     },
     "public.tariff_type": {
       "name": "tariff_type",
       "schema": "public",
-      "values": [
-        "counter-based",
-        "fixed-rate",
-        "area-based"
-      ]
+      "values": ["counter-based", "fixed-rate", "area-based"]
     }
   },
   "schemas": {},
