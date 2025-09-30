@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { ErrorMessage } from "~/components/blocks/error-message";
 import { LoadingIndicator } from "~/components/blocks/loading-indicator";
 import { useProviders } from "~/hooks/use-provider-queries";
@@ -11,6 +13,7 @@ interface Props {
 }
 
 export const ProvidersView = ({ householdId }: Props) => {
+  const t = useTranslations("providers.errors");
   const { data, isLoading, error } = useProviders(householdId);
 
   if (isLoading) {
@@ -18,7 +21,7 @@ export const ProvidersView = ({ householdId }: Props) => {
   }
 
   if (error || !data) {
-    return <ErrorMessage message="Failed to load providers" error={error || undefined} />;
+    return <ErrorMessage message={t("failedToLoad")} error={error || undefined} />;
   }
 
   return (

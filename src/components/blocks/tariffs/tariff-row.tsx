@@ -3,6 +3,7 @@
 import type { Tariff } from "~/types/tariffs";
 
 import { isFuture } from "date-fns";
+import { useTranslations } from "next-intl";
 
 import { TariffActions } from "~/components/dropdowns/tariff-actions";
 import { Badge } from "~/components/ui/badge";
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const TariffRow = ({ tariff, activeTariffId }: Props) => {
+  const t = useTranslations("tariffs");
   const currency = useDefaultCurrency();
 
   const isUpcoming = isFuture(tariff.startDate);
@@ -26,8 +28,8 @@ export const TariffRow = ({ tariff, activeTariffId }: Props) => {
       <TableCell>
         <div className="flex items-center gap-2">
           <p className="font-medium">{tariff.name}</p>
-          {isUpcoming && <Badge variant="outline">Upcoming</Badge>}
-          {isActive && <Badge variant="default">Active</Badge>}
+          {isUpcoming && <Badge variant="outline">{t("badges.upcoming")}</Badge>}
+          {isActive && <Badge variant="default">{t("badges.active")}</Badge>}
         </div>
       </TableCell>
       <TableCell>{formatDate(tariff.startDate)}</TableCell>
@@ -41,7 +43,7 @@ export const TariffRow = ({ tariff, activeTariffId }: Props) => {
         </ul>
       </TableCell>
       <TableCell className="text-right">
-        <span className="sr-only">Actions</span>
+        <span className="sr-only">{t("table.headers.actions")}</span>
         <TariffActions tariff={tariff} />
       </TableCell>
     </TableRow>

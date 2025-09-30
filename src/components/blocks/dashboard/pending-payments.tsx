@@ -1,6 +1,7 @@
 "use client";
 
 import { LoaderCircleIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { PaymentActions } from "~/components/dropdowns/payment-actions";
@@ -16,15 +17,16 @@ interface Props {
 }
 
 export const PendingPayments = ({ className }: Props) => {
+  const t = useTranslations("dashboard.pendingPayments");
   const { data, isLoading } = usePayments({ isPaid: false, page: 1, perPage: 5 });
 
   return (
     <Card className={cn("gap-1", className)}>
       <CardHeader aria-describedby={undefined}>
-        <CardTitle>Pending payments</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
         <CardAction>
           <Button variant="link" asChild>
-            <Link href="/app/payments">View all</Link>
+            <Link href="/app/payments">{t("viewAll")}</Link>
           </Button>
         </CardAction>
       </CardHeader>
@@ -43,7 +45,7 @@ export const PendingPayments = ({ className }: Props) => {
             {!isLoading && data?.items.length === 0 && (
               <TableRow className="hover:bg-transparent">
                 <TableCell colSpan={4} className="text-center">
-                  <p className="text-muted-foreground">Things are looking good! No pending payments found.</p>
+                  <p className="text-muted-foreground">{t("empty")}</p>
                 </TableCell>
               </TableRow>
             )}

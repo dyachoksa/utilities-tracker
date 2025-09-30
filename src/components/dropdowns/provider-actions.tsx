@@ -1,6 +1,7 @@
 "use client";
 
 import { Edit3Icon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const ProviderActions = ({ providerId }: Props) => {
+  const t = useTranslations("providers.actions");
   const { data } = useProvider(providerId);
   const { updateProvider, deleteProvider } = useProviderActions({ provider: data });
 
@@ -33,10 +35,10 @@ export const ProviderActions = ({ providerId }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={updateProvider}>
-          <Edit3Icon /> <span className="inline-block pt-0.5">Update provider</span>
+          <Edit3Icon /> <span className="inline-block pt-0.5">{t("update")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" onClick={deleteProvider}>
-          <Trash2Icon /> <span className="inline-block pt-0.5">Delete</span>
+          <Trash2Icon /> <span className="inline-block pt-0.5">{t("delete")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

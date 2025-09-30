@@ -3,6 +3,7 @@
 import type { LoginData } from "~/types/auth";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -17,6 +18,7 @@ import { LoginSchema } from "~/schemas/auth";
 export default function FormLogin() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("auth.login");
 
   const form = useForm<LoginData>({
     resolver: zodResolver(LoginSchema),
@@ -26,13 +28,13 @@ export default function FormLogin() {
   const onSubmit = form.handleSubmit(async (data) => {
     const result = await signIn.email(data);
     if (result.error) {
-      toast.error("Login failed", {
-        description: result.error.message || "We are experiencing issues. Please try again later.",
+      toast.error(t("feedback.error.title"), {
+        description: result.error.message || t("feedback.error.description"),
       });
       return;
     }
 
-    toast.success("Welcome back!", { description: "You have successfully signed in." });
+    toast.success(t("feedback.success.title"), { description: t("feedback.success.description") });
     router.push(searchParams.get("next") || "/app/dashboard");
   });
 
@@ -43,7 +45,7 @@ export default function FormLogin() {
           control={form.control}
           type="email"
           name="email"
-          label="Email"
+          label={t("form.email.label")}
           placeholder="user@example.com"
           autoComplete="username"
         />
@@ -51,13 +53,13 @@ export default function FormLogin() {
           control={form.control}
           type="password"
           name="password"
-          label="Password"
-          placeholder="Your password"
+          label={t("form.password.label")}
+          placeholder={t("form.password.placeholder")}
           autoComplete="current-password"
         />
-        <InputCheckbox control={form.control} name="rememberMe" label="Remember me" />
+        <InputCheckbox control={form.control} name="rememberMe" label={t("form.rememberMe.label")} />
         <Button type="submit" className="w-full">
-          Log in
+          {t("actions.login")}
         </Button>
       </form>
     </Form>

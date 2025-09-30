@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { ChartPaymentsByMonth } from "~/components/blocks/dashboard/chart-payments-by-month";
 import { PaymentsTable } from "~/components/blocks/payments/payments-table";
 import { ProviderOverview } from "~/components/blocks/providers/provider-overview";
@@ -11,13 +13,16 @@ import { fetchUser } from "~/lib/auth";
 export default async function Provider({ params }: PageProps<"/app/households/[id]/providers/[providerId]">) {
   const { id, providerId } = await params;
 
-  const breadcrumb = [
-    { label: "Households", href: "/app/households" },
-    { label: "Household details", href: `/app/households/${id}` },
-    { label: "Provider details", href: `/app/households/${id}/providers/${providerId}`, isActive: true },
-  ];
-
   await fetchUser();
+  const tHouseholds = await getTranslations("households");
+  const tProviders = await getTranslations("providers");
+  const tPayments = await getTranslations("payments");
+
+  const breadcrumb = [
+    { label: tHouseholds("title"), href: "/app/households" },
+    { label: tHouseholds("householdDetails"), href: `/app/households/${id}` },
+    { label: tProviders("providerDetails"), href: `/app/households/${id}/providers/${providerId}`, isActive: true },
+  ];
 
   return (
     <>
@@ -36,7 +41,7 @@ export default async function Provider({ params }: PageProps<"/app/households/[i
         <ChartPaymentsByMonth providerId={providerId} />
 
         <div className="space-y-1">
-          <SectionHeader title="Payments">
+          <SectionHeader title={tPayments("title")}>
             <AddPaymentButton householdId={id} providerId={providerId} />
           </SectionHeader>
 

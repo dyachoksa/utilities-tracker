@@ -3,6 +3,7 @@
 import type { SignupData } from "~/types/auth";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,6 +16,7 @@ import { SignupSchema } from "~/schemas/auth";
 
 export default function FormSignup() {
   const router = useRouter();
+  const t = useTranslations("auth.sign-up");
 
   const form = useForm<SignupData>({
     resolver: zodResolver(SignupSchema),
@@ -24,25 +26,31 @@ export default function FormSignup() {
   const onSubmit = form.handleSubmit(async (data) => {
     const result = await signUp.email(data);
     if (result.error) {
-      toast.error("Cat't create account", {
-        description: result.error.message || "We are experiencing issues. Please try again later.",
+      toast.error(t("feedback.error.title"), {
+        description: result.error.message || t("feedback.error.description"),
       });
       return;
     }
 
-    toast.success("Account created", { description: "Your account has been successfully created." });
+    toast.success(t("feedback.success.title"), { description: t("feedback.success.description") });
     router.push("/app/dashboard");
   });
 
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-4">
-        <InputText control={form.control} name="name" label="Name" placeholder="John Doe" autoComplete="name" />
+        <InputText
+          control={form.control}
+          name="name"
+          label={t("form.name.label")}
+          placeholder={t("form.name.placeholder")}
+          autoComplete="name"
+        />
         <InputText
           control={form.control}
           type="email"
           name="email"
-          label="Email"
+          label={t("form.email.label")}
           placeholder="user@example.com"
           autoComplete="username"
         />
@@ -50,12 +58,12 @@ export default function FormSignup() {
           control={form.control}
           type="password"
           name="password"
-          label="Password"
-          placeholder="Your password"
+          label={t("form.password.label")}
+          placeholder={t("form.password.placeholder")}
           autoComplete="new-password"
         />
         <Button type="submit" className="w-full">
-          Sign up
+          {t("actions.signup")}
         </Button>
       </form>
     </Form>

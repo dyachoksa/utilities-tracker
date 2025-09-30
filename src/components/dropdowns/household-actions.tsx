@@ -1,6 +1,7 @@
 "use client";
 
 import { Edit3Icon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const HouseholdActions = ({ householdId }: Props) => {
+  const t = useTranslations("households.actions");
   const { data } = useHousehold(householdId);
   const { updateHousehold, deleteHousehold } = useHouseholdActions(data);
 
@@ -33,10 +35,10 @@ export const HouseholdActions = ({ householdId }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={updateHousehold}>
-          <Edit3Icon /> <span className="inline-block pt-0.5">Update household</span>
+          <Edit3Icon /> <span className="inline-block pt-0.5">{t("update")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" onClick={deleteHousehold}>
-          <Trash2Icon /> <span className="inline-block pt-0.5">Delete</span>
+          <Trash2Icon /> <span className="inline-block pt-0.5">{t("delete")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

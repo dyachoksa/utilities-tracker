@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { ChartPaymentsByMonth } from "~/components/blocks/dashboard/chart-payments-by-month";
 import { HouseholdOverview } from "~/components/blocks/households/household-overview";
 import { PaymentsTable } from "~/components/blocks/payments/payments-table";
@@ -12,12 +14,15 @@ import { fetchUser } from "~/lib/auth";
 export default async function Household({ params }: PageProps<"/app/households/[id]">) {
   const { id } = await params;
 
-  const breadcrumb = [
-    { label: "Households", href: "/app/households" },
-    { label: "Household details", href: `/app/households/${id}`, isActive: true },
-  ];
-
   await fetchUser();
+  const tHouseholds = await getTranslations("households");
+  const tProviders = await getTranslations("providers");
+  const tPayments = await getTranslations("payments");
+
+  const breadcrumb = [
+    { label: tHouseholds("title"), href: "/app/households" },
+    { label: tHouseholds("householdDetails"), href: `/app/households/${id}`, isActive: true },
+  ];
 
   return (
     <>
@@ -33,7 +38,7 @@ export default async function Household({ params }: PageProps<"/app/households/[
         <ChartPaymentsByMonth householdId={id} />
 
         <div className="space-y-1">
-          <SectionHeader title="Providers">
+          <SectionHeader title={tProviders("title")}>
             <AddProviderButton householdId={id} />
           </SectionHeader>
 
@@ -41,7 +46,7 @@ export default async function Household({ params }: PageProps<"/app/households/[
         </div>
 
         <div className="space-y-1">
-          <SectionHeader title="Payments">
+          <SectionHeader title={tPayments("title")}>
             <AddPaymentButton householdId={id} />
           </SectionHeader>
 

@@ -1,4 +1,5 @@
 import { ChevronFirstIcon, ChevronLastIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Pagination,
@@ -22,6 +23,7 @@ export function PaginationBlock({
   paginationItemsToDisplay = 5,
   onPageChange,
 }: PaginationProps) {
+  const t = useTranslations("payments.pagination");
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage,
     totalPages,
@@ -35,7 +37,7 @@ export function PaginationBlock({
         <PaginationItem>
           <PaginationLink
             className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-            aria-label="Go to first page"
+            aria-label={t("goToFirstPage")}
             aria-disabled={currentPage === 1 ? true : undefined}
             role={currentPage === 1 ? "button" : undefined}
             onClick={() => onPageChange(1)}
@@ -49,7 +51,7 @@ export function PaginationBlock({
         <PaginationItem>
           <PaginationLink
             className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-            aria-label="Go to previous page"
+            aria-label={t("goToPreviousPage")}
             aria-disabled={currentPage === 1 ? true : undefined}
             role={currentPage === 1 ? "button" : undefined}
             onClick={() => onPageChange(currentPage - 1)}
@@ -86,7 +88,7 @@ export function PaginationBlock({
         <PaginationItem>
           <PaginationLink
             className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-            aria-label="Go to next page"
+            aria-label={t("goToNextPage")}
             aria-disabled={currentPage === totalPages ? true : undefined}
             role={currentPage === totalPages ? "button" : undefined}
             onClick={() => onPageChange(currentPage + 1)}
@@ -100,7 +102,7 @@ export function PaginationBlock({
         <PaginationItem>
           <PaginationLink
             className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-            aria-label="Go to last page"
+            aria-label={t("goToLastPage")}
             aria-disabled={currentPage === totalPages ? true : undefined}
             role={currentPage === totalPages ? "button" : undefined}
             onClick={() => onPageChange(totalPages)}

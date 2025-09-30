@@ -3,6 +3,7 @@
 import type { ChartConfig } from "~/components/ui/chart";
 
 import { format, subMonths } from "date-fns";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Bar, CartesianGrid, ComposedChart, Line, XAxis } from "recharts";
 
@@ -19,24 +20,25 @@ import { useDefaultCurrency } from "~/hooks/use-default-currency";
 import { usePaymentsByMonths } from "~/hooks/use-stats-queries";
 import { formatCurrency, formatMonth } from "~/lib/formatters";
 
-const chartConfig = {
-  amount: {
-    label: "Amount",
-    color: "#60a5fa",
-  },
-  paidAmount: {
-    label: "Paid",
-    color: "#2563eb",
-  },
-} satisfies ChartConfig;
-
 interface Props {
   householdId?: string;
   providerId?: string;
 }
 
 export const ChartPaymentsByMonth = ({ householdId, providerId }: Props) => {
+  const t = useTranslations("dashboard.charts.paymentsByMonth");
   const currency = useDefaultCurrency();
+
+  const chartConfig = {
+    amount: {
+      label: t("legend.amount"),
+      color: "#60a5fa",
+    },
+    paidAmount: {
+      label: t("legend.paid"),
+      color: "#2563eb",
+    },
+  } satisfies ChartConfig;
 
   const { data, isLoading } = usePaymentsByMonths({ householdId, providerId });
 
@@ -70,8 +72,8 @@ export const ChartPaymentsByMonth = ({ householdId, providerId }: Props) => {
   return (
     <Card className="gap-2 rounded-none border-none py-0 shadow-none">
       <CardHeader className="px-2">
-        <CardTitle>Payments by month</CardTitle>
-        <CardDescription>Payments for utilities for last 12 months</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="px-2">
         {isLoading && <Skeleton className="m-6 aspect-[32/9]" />}

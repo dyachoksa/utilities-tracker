@@ -1,18 +1,22 @@
+import { useTranslations } from "next-intl";
+
 const navigation = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Terms & Conditions", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
-];
+  { key: "home", label: "public.navigation.home", href: "/" },
+  { key: "about", label: "public.navigation.about", href: "/about" },
+  { key: "terms", label: "public.navigation.terms", href: "/terms" },
+  { key: "privacy", label: "public.navigation.privacy", href: "/privacy" },
+] as const;
 
 export function Footer() {
+  const t = useTranslations();
+
   return (
     <footer className="bg-gray-900">
       <div className="site-container py-12 md:flex md:items-center md:justify-between">
         <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm/6 md:order-2">
           {navigation.map((item) => (
-            <a key={item.label} href={item.href} className="text-gray-200 hover:text-white hover:underline">
-              {item.label}
+            <a key={item.key} href={item.href} className="text-gray-200 hover:text-white hover:underline">
+              {t(item.label as (typeof navigation)[number]["label"])}
             </a>
           ))}
         </nav>

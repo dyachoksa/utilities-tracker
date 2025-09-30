@@ -1,0 +1,348 @@
+{
+  "common": {
+    "misc": {
+      "or": "or"
+    },
+    "labels": {
+      "electricity": "Electricity",
+      "natural_gas": "Natural gas",
+      "water": "Water",
+      "heating": "Heating",
+      "maintenance": "Maintenance",
+      "other": "Other",
+      "counter-based": "Counter-based",
+      "fixed-rate": "Fixed rate",
+      "area-based": "Area-based"
+    }
+  },
+  "public": {
+    "navigation": {
+      "home": "Home",
+      "about": "About",
+      "dashboard": "Open app",
+      "terms": "Terms and conditions",
+      "privacy": "Privacy policy"
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "households": "Households",
+    "payments": "Payments"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "charts": {
+      "paymentsByMonth": {
+        "title": "Payments by month",
+        "description": "Payments for utilities for last 12 months",
+        "legend": {
+          "amount": "Amount",
+          "paid": "Paid"
+        }
+      },
+      "paymentsByType": {
+        "title": "Expenses by type",
+        "description": "This month expenses by utilities type",
+        "legend": {
+          "amount": "Amount"
+        }
+      }
+    },
+    "pendingPayments": {
+      "title": "Pending payments",
+      "viewAll": "View all",
+      "empty": "Things are looking good! No pending payments found.",
+      "actions": {
+        "openMenu": "Open menu",
+        "markAsPaid": "Mark as paid",
+        "delete": "Delete payment"
+      }
+    }
+  },
+  "payments": {
+    "title": "Payments",
+    "addPayment": "Add payment",
+    "filters": {
+      "selectHousehold": "Select household",
+      "paymentStatus": "Payment status",
+      "allPayments": "All payments",
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "clearFilters": "Clear filters"
+    },
+    "table": {
+      "headers": {
+        "period": "Period",
+        "household": "Household",
+        "provider": "Provider",
+        "latestReadings": "Latest readings",
+        "amount": "Amount",
+        "paidAmount": "Paid amount",
+        "actions": "Actions"
+      },
+      "empty": "No payments found.",
+      "error": "Failed to fetch payments",
+      "perPage": "Per page",
+      "selectNumberOfResults": "Select number of results"
+    },
+    "row": {
+      "markAsPaid": "Mark as paid"
+    },
+    "pagination": {
+      "goToFirstPage": "Go to first page",
+      "goToPreviousPage": "Go to previous page",
+      "goToNextPage": "Go to next page",
+      "goToLastPage": "Go to last page"
+    }
+  },
+  "households": {
+    "title": "Households",
+    "householdDetails": "Household details",
+    "addHousehold": "Add household",
+    "view": "View",
+    "errors": {
+      "failedToLoad": "Failed to load households",
+      "failedToLoadHousehold": "Failed to load household"
+    },
+    "actions": {
+      "update": "Update household",
+      "delete": "Delete"
+    }
+  },
+  "providers": {
+    "title": "Providers",
+    "providerDetails": "Provider details",
+    "addProvider": "Add provider",
+    "view": "View",
+    "errors": {
+      "failedToLoad": "Failed to load providers",
+      "failedToLoadProvider": "Failed to load provider"
+    },
+    "actions": {
+      "update": "Update provider",
+      "delete": "Delete"
+    }
+  },
+  "tariffs": {
+    "addTariff": "Add tariff",
+    "table": {
+      "headers": {
+        "name": "Name",
+        "startDate": "Start date",
+        "tariffZones": "Tariff zones",
+        "actions": "Actions"
+      }
+    },
+    "badges": {
+      "upcoming": "Upcoming",
+      "active": "Active"
+    },
+    "errors": {
+      "failedToLoad": "Failed to load tariffs"
+    },
+    "actions": {
+      "openMenu": "Open menu",
+      "update": "Update",
+      "delete": "Delete"
+    }
+  },
+  "forms": {
+    "common": {
+      "labels": {
+        "name": "Name",
+        "address": "Address",
+        "area": "Area",
+        "description": "Description",
+        "isActive": "Is active",
+        "isPaid": "Is paid",
+        "household": "Household",
+        "provider": "Provider",
+        "paymentPeriod": "Payment period",
+        "paidAmount": "Paid amount",
+        "accountNumber": "Account number",
+        "websiteUrl": "Website URL",
+        "startDate": "Start date",
+        "tariffType": "Tariff type",
+        "tariffZones": "Tariff zones",
+        "price": "Price"
+      },
+      "placeholders": {
+        "name": "My apartments",
+        "address": "123 Main St",
+        "area": "85.45",
+        "optional": "Optional",
+        "selectHousehold": "Select household",
+        "selectProvider": "Select provider"
+      },
+      "hints": {
+        "optional": "Optional",
+        "isPaidDescription": "Check if it's already been paid"
+      },
+      "buttons": {
+        "cancel": "Cancel"
+      }
+    },
+    "household": {
+      "create": {
+        "error": "Failed to create household",
+        "success": "Household created",
+        "successDescription": "Now you can add providers and start tracking utilities",
+        "submit": "Create household"
+      },
+      "update": {
+        "error": "Failed to update household",
+        "success": "Household updated",
+        "successDescription": "Changes have been saved",
+        "submit": "Update household"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete household",
+        "warning": "This action cannot be undone. All related data will be permanently removed.",
+        "success": "Household deleted",
+        "successDescription": "has been successfully deleted",
+        "submit": "Yes, delete household"
+      }
+    },
+    "provider": {
+      "create": {
+        "error": "Failed to create provider",
+        "success": "Provider created",
+        "successDescription": "Provider has been created successfully",
+        "submit": "Create provider"
+      },
+      "update": {
+        "error": "Failed to update provider",
+        "success": "Provider updated",
+        "successDescription": "Changes have been saved",
+        "submit": "Update provider"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete provider",
+        "warning": "This action cannot be undone. All related data will be permanently removed.",
+        "success": "Provider deleted",
+        "successDescription": "has been successfully deleted",
+        "submit": "Yes, delete provider"
+      }
+    },
+    "tariff": {
+      "create": {
+        "error": "Failed to create tariff",
+        "success": "Tariff created",
+        "successDescription": "Tariff has been created successfully",
+        "submit": "Create tariff",
+        "addZone": "Add zone",
+        "removeZone": "Remove tariff zone",
+        "placeholders": {
+          "name": "Default monthly",
+          "zoneName": "Default",
+          "price": "4.50"
+        }
+      },
+      "update": {
+        "error": "Failed to update tariff",
+        "success": "Tariff updated",
+        "successDescription": "Changes have been saved",
+        "submit": "Update tariff"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete tariff",
+        "warning": "This action cannot be undone. All related data will be permanently removed.",
+        "success": "Tariff deleted",
+        "successDescription": "has been successfully deleted",
+        "submit": "Yes, delete tariff",
+        "cancel": "No, cancel"
+      }
+    },
+    "payment": {
+      "create": {
+        "error": "Failed to create payment",
+        "success": "Payment created",
+        "successDescription": "Payment has been created successfully",
+        "submit": "Create payment",
+        "placeholders": {
+          "amount": "100"
+        }
+      },
+      "markAsPaid": {
+        "success": "Payment updated",
+        "successDescription": "Payment has been marked as paid",
+        "submit": "Mark as paid"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete payment",
+        "warning": "This action cannot be undone. All related data will be permanently removed.",
+        "success": "Payment deleted",
+        "successDescription": "has been successfully deleted",
+        "submit": "Yes, delete payment"
+      }
+    }
+  },
+  "user": {
+    "menu": {
+      "myProfile": "My profile",
+      "logOut": "Log out"
+    },
+    "logout": {
+      "error": "Failed to sign out",
+      "errorDescription": "We are experiencing issues now. Please try again later.",
+      "success": "See you soon!",
+      "successDescription": "You have been signed out successfully."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log In",
+      "description": "Log in to your account to continue",
+      "feedback": {
+        "error": {
+          "title": "Login failed",
+          "description": "We are experiencing issues. Please try again later."
+        },
+        "success": {
+          "title": "Welcome back!",
+          "description": "You have successfully signed in."
+        }
+      },
+      "form": {
+        "email": { "label": "Email" },
+        "password": { "label": "Password", "placeholder": "Your password" },
+        "rememberMe": { "label": "Remember me" }
+      },
+      "actions": {
+        "login": "Log in",
+        "loginWithGithub": "Log in with GitHub"
+      },
+      "sign-up": {
+        "hint": "Don't have an account?",
+        "action": "Sign up"
+      }
+    },
+    "sign-up": {
+      "title": "Sign Up",
+      "description": "Create a new account to get started",
+      "feedback": {
+        "error": {
+          "title": "Sign up failed",
+          "description": "We are experiencing issues. Please try again later."
+        },
+        "success": {
+          "title": "Account created",
+          "description": "Your account has been successfully created."
+        }
+      },
+      "form": {
+        "name": { "label": "Name", "placeholder": "John Doe" },
+        "email": { "label": "Email" },
+        "password": { "label": "Password", "placeholder": "Your password" }
+      },
+      "actions": {
+        "signup": "Sign up",
+        "signupWithGithub": "Sign up with GitHub"
+      },
+      "login": {
+        "hint": "Already have an account?",
+        "action": "Log in"
+      }
+    }
+  }
+}

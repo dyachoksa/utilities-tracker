@@ -1,12 +1,15 @@
+import { getTranslations } from "next-intl/server";
+
 import { HouseholdsView } from "~/components/blocks/households/households-view";
 import { AddHouseholdButton } from "~/components/elements/add-household-button";
 import { Header } from "~/components/layouts/app/header";
 import { fetchUser } from "~/lib/auth";
 
-const breadcrumb = [{ label: "Households", href: "/app/households", isActive: true }];
-
 export default async function Households() {
   await fetchUser();
+  const t = await getTranslations("households");
+
+  const breadcrumb = [{ label: t("title"), href: "/app/households", isActive: true }];
 
   return (
     <>

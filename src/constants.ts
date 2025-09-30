@@ -2,24 +2,6 @@ export const providerTypes = ["natural_gas", "electricity", "water", "heating", 
 
 export type ProviderType = (typeof providerTypes)[number];
 
-export const providerTypeOptions: { value: ProviderType; label: string }[] = [
-  { value: "electricity", label: "Electricity" },
-  { value: "natural_gas", label: "Natural gas" },
-  { value: "water", label: "Water" },
-  { value: "heating", label: "Heating" },
-  { value: "maintenance", label: "Maintenance" },
-  { value: "other", label: "Other" },
-];
-
-export const providerTypeLabels: Record<ProviderType, string> = {
-  natural_gas: "Natural gas",
-  electricity: "Electricity",
-  water: "Water",
-  heating: "Heating",
-  maintenance: "Maintenance",
-  other: "Other",
-};
-
 export const providerTypeColors: Record<"light" | "dark", Record<ProviderType, string>> = {
   light: {
     natural_gas: "#80d4eb", // light aqua
@@ -41,7 +23,9 @@ export const providerTypeColors: Record<"light" | "dark", Record<ProviderType, s
 
 export const tariffTypes = ["counter-based", "fixed-rate", "area-based"] as const;
 
-export const tariffTypeOptions: { value: (typeof tariffTypes)[number]; label: string }[] = [
+export type TariffType = (typeof tariffTypes)[number];
+
+export const tariffTypeOptions: { value: TariffType; label: string }[] = [
   { value: "counter-based", label: "Counter-based" },
   { value: "fixed-rate", label: "Fixed rate" },
   { value: "area-based", label: "Area-based" },

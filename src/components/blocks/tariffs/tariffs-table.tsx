@@ -3,6 +3,7 @@
 import type { Tariff } from "~/types/tariffs";
 
 import { isPast } from "date-fns";
+import { useTranslations } from "next-intl";
 
 import { AddTariffButton } from "~/components/elements/add-tariff-button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
@@ -15,17 +16,18 @@ interface Props {
 }
 
 export const TariffsTable = ({ providerId, tariffs }: Props) => {
+  const t = useTranslations("tariffs.table.headers");
   const activeTariff = tariffs.find((tariff) => tariff.isActive && isPast(tariff.startDate));
 
   return (
     <Table>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead>Name</TableHead>
-          <TableHead>Start date</TableHead>
-          <TableHead>Tariff zones</TableHead>
+          <TableHead>{t("name")}</TableHead>
+          <TableHead>{t("startDate")}</TableHead>
+          <TableHead>{t("tariffZones")}</TableHead>
           <TableHead>
-            <span className="sr-only">Actions</span>
+            <span className="sr-only">{t("actions")}</span>
           </TableHead>
         </TableRow>
       </TableHeader>

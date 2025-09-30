@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useId, useState } from "react";
 
 import { ErrorMessage } from "~/components/blocks/error-message";
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
+  const t = useTranslations("payments");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(25);
 
@@ -33,14 +35,14 @@ export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
     <Table>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead>Period</TableHead>
-          <TableHead>Household</TableHead>
-          <TableHead>Provider</TableHead>
-          <TableHead>Latest readings</TableHead>
-          <TableHead>Amount</TableHead>
-          <TableHead>Paid amount</TableHead>
+          <TableHead>{t("table.headers.period")}</TableHead>
+          <TableHead>{t("table.headers.household")}</TableHead>
+          <TableHead>{t("table.headers.provider")}</TableHead>
+          <TableHead>{t("table.headers.latestReadings")}</TableHead>
+          <TableHead>{t("table.headers.amount")}</TableHead>
+          <TableHead>{t("table.headers.paidAmount")}</TableHead>
           <TableHead>
-            <span className="sr-only">Actions</span>
+            <span className="sr-only">{t("table.headers.actions")}</span>
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -59,7 +61,7 @@ export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
         {error && (
           <TableRow className="hover:bg-transparent">
             <TableCell colSpan={7} className="py-4 text-center">
-              <ErrorMessage message="Failed to fetch payments" error={error} />
+              <ErrorMessage message={t("table.error")} error={error} />
             </TableCell>
           </TableRow>
         )}
@@ -68,7 +70,7 @@ export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
           <TableRow className="hover:bg-transparent">
             <TableCell colSpan={7} className="py-4 text-center">
               <p className="inline-flex items-center gap-2">
-                No payments found. <AddPaymentButton householdId={householdId} />
+                {t("table.empty")} <AddPaymentButton householdId={householdId} />
               </p>
             </TableCell>
           </TableRow>
@@ -86,7 +88,7 @@ export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
           <TableCell colSpan={7} className="py-4">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-3">
-                <Label htmlFor={perPageId}>Per page</Label>
+                <Label htmlFor={perPageId}>{t("table.perPage")}</Label>
                 <Select
                   value={perPage.toString()}
                   onValueChange={(value) => {
@@ -95,7 +97,7 @@ export const PaymentsTable = ({ householdId, providerId, isPaid }: Props) => {
                   }}
                 >
                   <SelectTrigger size="sm" id={perPageId} className="w-fit whitespace-nowrap">
-                    <SelectValue placeholder="Select number of results" />
+                    <SelectValue placeholder={t("table.selectNumberOfResults")} />
                   </SelectTrigger>
                   <SelectContent className="[&_*[role=option]]:ps-2 [&_*[role=option]]:pe-8 [&_*[role=option]>span]:start-auto [&_*[role=option]>span]:end-2">
                     <SelectItem value="10">10</SelectItem>

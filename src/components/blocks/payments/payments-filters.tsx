@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "~/components/ui/button";
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const PaymentsFilters = ({ onHouseholdChange, onIsPaidChange }: Props) => {
+  const t = useTranslations("payments.filters");
   const { data: households, isLoading: isLoadingHouseholds } = useHouseholds();
 
   const [selectedHousehold, setSelectedHousehold] = useState<string>("");
@@ -52,7 +54,7 @@ export const PaymentsFilters = ({ onHouseholdChange, onIsPaidChange }: Props) =>
           {households && !isLoadingHouseholds && (
             <Select onValueChange={handleHouseholdChange} value={selectedHousehold}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select household" />
+                <SelectValue placeholder={t("selectHousehold")} />
               </SelectTrigger>
 
               <SelectContent>
@@ -69,13 +71,13 @@ export const PaymentsFilters = ({ onHouseholdChange, onIsPaidChange }: Props) =>
         <div className="w-full md:max-w-40">
           <Select onValueChange={handlePaymentStatusChange} value={selectedPaymentStatus}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Payment status" />
+              <SelectValue placeholder={t("paymentStatus")} />
             </SelectTrigger>
 
             <SelectContent>
-              <SelectItem value="all">All payments</SelectItem>
-              <SelectItem value="paid">Paid</SelectItem>
-              <SelectItem value="unpaid">Unpaid</SelectItem>
+              <SelectItem value="all">{t("allPayments")}</SelectItem>
+              <SelectItem value="paid">{t("paid")}</SelectItem>
+              <SelectItem value="unpaid">{t("unpaid")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -83,7 +85,7 @@ export const PaymentsFilters = ({ onHouseholdChange, onIsPaidChange }: Props) =>
 
       {isFiltering && (
         <Button variant="link" size="sm" onClick={clearFilters}>
-          Clear filters
+          {t("clearFilters")}
         </Button>
       )}
     </div>

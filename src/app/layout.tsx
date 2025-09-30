@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { NextIntlClientProvider } from "next-intl";
 import { Geist_Mono, Inter } from "next/font/google";
 
 import { Toaster } from "~/components/ui/sonner";
@@ -30,9 +31,10 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${geistMono.variable} bg-gray-50 antialiased`}>
-        {children}
-
-        <Toaster />
+        <NextIntlClientProvider>
+          {children}
+          <Toaster />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@
 import { LogOutIcon, MoreVerticalIcon, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
@@ -25,19 +26,20 @@ interface Props {
 
 export function SidebarUser({ userName, userEmail, userImage }: Props) {
   const router = useRouter();
+  const t = useTranslations("user");
 
   const { isMobile } = useSidebar();
 
   const handleLogout = async () => {
     const result = await signOut();
     if (result.error) {
-      toast.error("Failed to sign out", {
-        description: result.error.message || "We are experiencing issues now. Please try again later.",
+      toast.error(t("logout.error"), {
+        description: result.error.message || t("logout.errorDescription"),
       });
       return;
     }
 
-    toast.success("See you soon!", { description: "You have been signed out successfully." });
+    toast.success(t("logout.success"), { description: t("logout.successDescription") });
     router.push("/");
   };
 
@@ -86,7 +88,7 @@ export function SidebarUser({ userName, userEmail, userImage }: Props) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserIcon />
-                My profile
+                {t("menu.myProfile")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
@@ -94,7 +96,7 @@ export function SidebarUser({ userName, userEmail, userImage }: Props) {
 
             <DropdownMenuItem onClick={handleLogout}>
               <LogOutIcon />
-              Log out
+              {t("menu.logOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

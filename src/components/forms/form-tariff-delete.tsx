@@ -5,6 +5,7 @@ import type { Tariff } from "~/types/tariffs";
 import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
 
 import { Button } from "~/components/ui/button";
 import { useDialogStore } from "~/hooks/use-dialog-store";
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export function FormTariffDelete({ tariff }: Props) {
+  const t = useTranslations("forms");
   const closeDialog = useDialogStore(useShallow((state) => state.closeDialog));
   const action = useDeleteTariff(tariff.id, tariff.providerId);
 
@@ -22,8 +24,8 @@ export function FormTariffDelete({ tariff }: Props) {
     action.mutate(undefined, {
       onSuccess: async () => {
         closeDialog();
-        toast.success("Tariff deleted", {
-          description: `Tariff '${tariff.name}' has been successfully deleted`,
+        toast.success(t("tariff.delete.success"), {
+          description: `${tariff.name} ${t("tariff.delete.successDescription")}`,
         });
       },
     });
@@ -31,17 +33,15 @@ export function FormTariffDelete({ tariff }: Props) {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-gray-800">Are you sure you want to delete tariff &apos;{tariff.name}&apos;?</p>
-      <p className="text-sm text-gray-700">
-        This action cannot be undone. All related data will be permanently removed.
-      </p>
+      <p className="text-sm text-gray-800">{t("tariff.delete.confirm")} &apos;{tariff.name}&apos;?</p>
+      <p className="text-sm text-gray-700">{t("tariff.delete.warning")}</p>
 
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row-reverse">
         <Button disabled={action.isPending} onClick={handleDelete}>
-          {action.isPending ? <Loader2Icon className="animate-spin" /> : null} Yes, delete tariff
+          {action.isPending ? <Loader2Icon className="animate-spin" /> : null} {t("tariff.delete.submit")}
         </Button>
         <Button variant="outline" onClick={closeDialog}>
-          No, cancel
+          {t("tariff.delete.cancel")}
         </Button>
       </div>
     </div>

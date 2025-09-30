@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { ErrorMessage } from "~/components/blocks/error-message";
 import { LoadingIndicator } from "~/components/blocks/loading-indicator";
 import { useHouseholds } from "~/hooks/use-household-queries";
@@ -7,6 +9,7 @@ import { useHouseholds } from "~/hooks/use-household-queries";
 import { HouseholdCard } from "./household-card";
 
 export const HouseholdsView = () => {
+  const t = useTranslations("households.errors");
   const { data, isLoading, error } = useHouseholds();
 
   if (isLoading) {
@@ -14,7 +17,7 @@ export const HouseholdsView = () => {
   }
 
   if (error || !data) {
-    return <ErrorMessage message="Failed to load households" error={error || undefined} />;
+    return <ErrorMessage message={t("failedToLoad")} error={error || undefined} />;
   }
 
   return (

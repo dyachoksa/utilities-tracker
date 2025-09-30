@@ -7,6 +7,7 @@ import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
 
 import { InputText } from "~/components/inputs/input-text";
 import { Button } from "~/components/ui/button";
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function FormPaymentMarkAsPaid({ payment }: Props) {
+  const t = useTranslations("forms");
   const closeDialog = useDialogStore(useShallow((state) => state.closeDialog));
   const action = useMarkPaymentAsPaid(payment.id);
 
@@ -33,7 +35,7 @@ export function FormPaymentMarkAsPaid({ payment }: Props) {
   const onSubmit = form.handleSubmit((data) => {
     action.mutate(data, {
       onSuccess: () => {
-        toast.success("Payment updated", { description: "Payment has been marked as paid" });
+        toast.success(t("payment.markAsPaid.success"), { description: t("payment.markAsPaid.successDescription") });
         closeDialog();
       },
     });
@@ -45,8 +47,8 @@ export function FormPaymentMarkAsPaid({ payment }: Props) {
         <InputText
           control={form.control}
           name="paidAmount"
-          label="Paid amount"
-          placeholder="100"
+          label={t("common.labels.paidAmount")}
+          placeholder={t("payment.create.placeholders.amount")}
           type="number"
           min="0"
           step="0.01"
@@ -54,10 +56,10 @@ export function FormPaymentMarkAsPaid({ payment }: Props) {
 
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row-reverse">
           <Button type="submit" disabled={action.isPending}>
-            {action.isPending ? <Loader2Icon className="animate-spin" /> : null} Mark as paid
+            {action.isPending ? <Loader2Icon className="animate-spin" /> : null} {t("payment.markAsPaid.submit")}
           </Button>
           <Button type="button" variant="outline" onClick={closeDialog} disabled={action.isPending}>
-            Cancel
+            {t("common.buttons.cancel")}
           </Button>
         </div>
       </form>

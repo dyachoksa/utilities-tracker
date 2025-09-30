@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -5,15 +6,17 @@ import { Button } from "~/components/ui/button";
 import { NavigationMenu, NavigationMenuLink, NavigationMenuList } from "~/components/ui/navigation-menu";
 
 const items = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-];
+  { key: "home", label: "public.navigation.home", href: "/" },
+  { key: "about", label: "public.navigation.about", href: "/about" },
+] as const;
 
 interface Props {
   isAuthenticated: boolean;
 }
 
 export function Header({ isAuthenticated }: Props) {
+  const t = useTranslations();
+
   return (
     <header className="bg-white py-4">
       <div className="site-container flex items-center justify-between">
@@ -25,8 +28,8 @@ export function Header({ isAuthenticated }: Props) {
         <NavigationMenu viewport={false}>
           <NavigationMenuList>
             {items.map((item) => (
-              <NavigationMenuLink key={item.label} asChild>
-                <Link href={item.href}>{item.label}</Link>
+              <NavigationMenuLink key={item.key} asChild>
+                <Link href={item.href}>{t(item.label as (typeof items)[number]["label"])}</Link>
               </NavigationMenuLink>
             ))}
           </NavigationMenuList>
@@ -35,15 +38,15 @@ export function Header({ isAuthenticated }: Props) {
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
             <Button asChild>
-              <Link href="/app/dashboard">Open dashboard</Link>
+              <Link href="/app/dashboard">{t("public.navigation.dashboard")}</Link>
             </Button>
           ) : (
             <>
               <Button variant="ghost" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/login">{t("auth.login.actions.login")}</Link>
               </Button>
               <Button asChild>
-                <Link href="/signup">Sign up</Link>
+                <Link href="/signup">{t("auth.sign-up.actions.signup")}</Link>
               </Button>
             </>
           )}

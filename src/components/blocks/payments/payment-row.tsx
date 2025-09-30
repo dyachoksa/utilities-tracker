@@ -3,6 +3,7 @@
 import type { PaymentWithRelations } from "~/types/payments";
 
 import { CheckIcon, HandCoinsIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { PaymentActions } from "~/components/dropdowns/payment-actions";
 import { ProviderBadge } from "~/components/elements/provider-badge";
@@ -13,6 +14,7 @@ import { usePaymentActions } from "~/hooks/use-payment-actions";
 import { formatCurrency, formatMonth } from "~/lib/formatters";
 
 export const PaymentRow = ({ payment }: { payment: PaymentWithRelations }) => {
+  const t = useTranslations("payments.row");
   const currency = useDefaultCurrency();
 
   const { markAsPaid } = usePaymentActions({ payment });
@@ -47,7 +49,7 @@ export const PaymentRow = ({ payment }: { payment: PaymentWithRelations }) => {
           {payment.isPaid ? (
             <CheckIcon className="me-2 inline-flex size-5 text-green-600" />
           ) : (
-            <Button variant="ghost" size="icon" title="Mark as paid" onClick={markAsPaid}>
+            <Button variant="ghost" size="icon" title={t("markAsPaid")} onClick={markAsPaid}>
               <HandCoinsIcon />
             </Button>
           )}
