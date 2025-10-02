@@ -233,13 +233,13 @@
         "addZone": "Додати зону",
         "removeZone": "Видалити тарифну зону",
         "placeholders": {
-          "name": "Default monthly",
-          "zoneName": "Default",
-          "price": "4.50"
+          "name": "Місячний",
+          "zoneName": "Лічильник",
+          "price": "Сума"
         }
       },
       "update": {
-        "error": "Не вдалося оновити тариф",
+        "error": "Невдалося оновити тариф",
         "success": "Тариф оновлено",
         "successDescription": "Зміни були збережені",
         "submit": "Оновити тариф"

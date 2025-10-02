@@ -1,0 +1,1 @@
+ALTER TABLE "tariff_zones" ALTER COLUMN "price" SET DATA TYPE numeric(10, 4);

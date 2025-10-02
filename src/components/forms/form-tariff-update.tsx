@@ -4,11 +4,11 @@ import type { Tariff, TariffUpdateData } from "~/types/tariffs";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, PlusIcon, TrashIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useShallow } from "zustand/shallow";
-import { useTranslations } from "next-intl";
 
 import { ErrorMessage } from "~/components/blocks/error-message";
 import { InputCheckbox } from "~/components/inputs/input-checkbox";
@@ -67,12 +67,31 @@ export function FormTariffUpdate({ tariff }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-4">
-        {action.error && <ErrorMessage message={t("tariff.update.error") || "Failed to create tariff"} error={action.error} />}
+        {action.error && (
+          <ErrorMessage message={t("tariff.update.error") || "Failed to create tariff"} error={action.error} />
+        )}
 
-        <InputText control={form.control} name="name" label={t("tariff.create.placeholders.name") || "Name"} placeholder={t("tariff.create.placeholders.name")} required />
-        <InputSelect control={form.control} name="tariffType" label={t("common.labels.tariffType")} values={tariffTypeOptions} required />
+        <InputText
+          control={form.control}
+          name="name"
+          label={t("tariff.create.placeholders.name") || "Name"}
+          placeholder={t("tariff.create.placeholders.name")}
+          required
+        />
+        <InputSelect
+          control={form.control}
+          name="tariffType"
+          label={t("common.labels.tariffType")}
+          values={tariffTypeOptions}
+          required
+        />
         <InputDate control={form.control} name="startDate" label={t("common.labels.startDate")} required />
-        <InputText control={form.control} name="description" label={t("common.labels.description")} placeholder={t("common.placeholders.optional")} />
+        <InputText
+          control={form.control}
+          name="description"
+          label={t("common.labels.description")}
+          placeholder={t("common.placeholders.optional")}
+        />
 
         <div>
           <div className="flex items-center justify-between gap-2">
@@ -95,10 +114,10 @@ export function FormTariffUpdate({ tariff }: Props) {
                   control={form.control}
                   name={`tariffZones.${index}.price`}
                   label={t("tariff.create.placeholders.price")}
-                  placeholder={t("tariff.create.placeholders.price")}
+                  placeholder="4.55"
                   type="number"
-                  min="0.01"
-                  step="0.01"
+                  min="0.0001"
+                  step="0.0001"
                   required
                 />
                 <div className="flex flex-col justify-end">

@@ -235,7 +235,7 @@
         "placeholders": {
           "name": "Default monthly",
           "zoneName": "Default",
-          "price": "4.50"
+          "price": "Price"
         }
       },
       "update": {

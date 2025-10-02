@@ -10,7 +10,7 @@ export const formatCurrency = (amount: string, currency: string) => {
   const formatter = new Intl.NumberFormat(undefined, {
     style: "currency",
     currency,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 4,
     minimumFractionDigits: 2,
   });
 

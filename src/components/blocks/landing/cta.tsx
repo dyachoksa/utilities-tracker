@@ -25,14 +25,17 @@ export function CTA() {
               </Link>
             </Button>
 
-            <Button asChild size="lg" variant="outline" className="w-full border-white text-white hover:bg-white/10 sm:w-auto">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="w-full border-white bg-transparent text-white hover:bg-white/10 hover:text-white sm:w-auto"
+            >
               <Link href="/about">Learn More</Link>
             </Button>
           </div>
 
-          <p className="mt-6 text-sm text-blue-200">
-            Free forever • No subscriptions • No hidden costs
-          </p>
+          <p className="mt-6 text-sm text-blue-200">Free forever • No subscriptions • No hidden costs</p>
         </div>
       </div>
     </section>

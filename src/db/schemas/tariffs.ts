@@ -40,7 +40,7 @@ export const tariffZones = pgTable(
       .notNull()
       .references(() => tariffs.id, { onDelete: "cascade" }),
     name: text().notNull(),
-    price: decimal({ precision: 10, scale: 2 }).notNull(),
+    price: decimal({ precision: 10, scale: 4 }).notNull(),
     description: text(),
 
     ...timestamps(),

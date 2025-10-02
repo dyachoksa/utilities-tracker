@@ -53,6 +53,7 @@ export const useCreatePayment = () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["payments"] }),
         queryClient.invalidateQueries({ queryKey: ["meter-readings", { tariffId: data.tariffId }] }),
+        queryClient.invalidateQueries({ queryKey: ["stats"] }),
       ]);
     },
   });
@@ -76,7 +77,10 @@ export const useMarkPaymentAsPaid = (id: string) => {
       return res.json();
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["payments"] });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["payments"] }),
+        queryClient.invalidateQueries({ queryKey: ["stats"] }),
+      ]);
     },
   });
 };
@@ -99,7 +103,10 @@ export const useDeletePayment = (id: string) => {
       return;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["payments"] });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["payments"] }),
+        queryClient.invalidateQueries({ queryKey: ["stats"] }),
+      ]);
     },
   });
 };

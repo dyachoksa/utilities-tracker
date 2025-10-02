@@ -37,7 +37,7 @@ export const getPayments = async (params: GetPaymentsParams, options?: GetPaymen
 
   const items = await db.query.payments.findMany({
     where,
-    orderBy: (payments, { desc, asc }) => [desc(payments.paymentPeriod), asc(payments.createdAt)],
+    orderBy: (payments, { desc }) => [desc(payments.paymentPeriod), desc(payments.createdAt)],
     limit: perPage,
     offset: (page - 1) * perPage,
     with: {

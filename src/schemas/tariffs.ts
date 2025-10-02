@@ -9,7 +9,7 @@ export const TariffZoneSchema = z
     name: z.string().openapi({ example: "Default monthly" }),
     price: z
       .string()
-      .regex(/^[0-9]+(\.[0-9]{2})?$/)
+      .regex(/^[0-9]+(\.[0-9]{0,4})?$/)
       .openapi({ example: "10.00", description: "Monthly price" }),
     description: z
       .string()

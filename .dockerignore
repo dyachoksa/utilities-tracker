@@ -1,0 +1,10 @@
+Dockerfile
+Dockerfile.tpl
+.git
+.env
+.crush
+.idea
+.next
+.vscode
+scripts
+node_modules

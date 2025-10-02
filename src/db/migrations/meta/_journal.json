@@ -36,6 +36,13 @@
       "when": 1758964932870,
       "tag": "0004_alter_meter_readings",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1759395077672,
+      "tag": "0005_alter_tariff_zone",
+      "breakpoints": true
     }
   ]
 }

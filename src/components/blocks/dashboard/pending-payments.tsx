@@ -18,7 +18,7 @@ interface Props {
 
 export const PendingPayments = ({ className }: Props) => {
   const t = useTranslations("dashboard.pendingPayments");
-  const { data, isLoading } = usePayments({ isPaid: false, page: 1, perPage: 5 });
+  const { data, isLoading } = usePayments({ isPaid: false, page: 1, perPage: 10 });
 
   return (
     <Card className={cn("gap-1", className)}>
@@ -32,42 +32,40 @@ export const PendingPayments = ({ className }: Props) => {
       </CardHeader>
 
       <CardContent className="flex-grow">
-        <Table className="h-full">
-          <TableBody>
-            {isLoading && (
-              <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={4} className="text-center">
-                  <LoaderCircleIcon className="text-primary inline-block size-8 animate-spin" />
-                </TableCell>
-              </TableRow>
+        {isLoading && (
+          <div className="flex h-full items-center justify-center text-center">
+            <LoaderCircleIcon className="text-primary inline-block size-8 animate-spin" />
+          </div>
+        )}
+        {!isLoading && (
+          <>
+            {data?.items.length === 0 ? (
+              <div className="flex h-full items-center justify-center text-center">
+                <p className="text-muted-foreground">{t("empty")}</p>
+              </div>
+            ) : (
+              <Table>
+                <TableBody>
+                  {data?.items.map((payment) => (
+                    <TableRow key={payment.id} className="border-none">
+                      <TableCell>{payment.household.name}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <ProviderBadge provider={payment.provider} />
+                          <p>{payment.provider.name}</p>
+                        </div>
+                      </TableCell>
+                      <TableCell>{payment.amount}</TableCell>
+                      <TableCell className="text-right">
+                        <PaymentActions payment={payment} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             )}
-
-            {!isLoading && data?.items.length === 0 && (
-              <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={4} className="text-center">
-                  <p className="text-muted-foreground">{t("empty")}</p>
-                </TableCell>
-              </TableRow>
-            )}
-
-            {!isLoading &&
-              data?.items.map((payment) => (
-                <TableRow key={payment.id}>
-                  <TableCell>{payment.household.name}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <ProviderBadge provider={payment.provider} />
-                      <p>{payment.provider.name}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>{payment.amount}</TableCell>
-                  <TableCell className="text-right">
-                    <PaymentActions payment={payment} />
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+          </>
+        )}
       </CardContent>
     </Card>
   );
