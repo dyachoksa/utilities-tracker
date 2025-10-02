@@ -18,7 +18,7 @@ interface Props {
 
 export const PendingPayments = ({ className }: Props) => {
   const t = useTranslations("dashboard.pendingPayments");
-  const { data, isLoading } = usePayments({ isPaid: false, page: 1, perPage: 10 });
+  const { data, isLoading } = usePayments({ isPaid: false, page: 1, perPage: 7 });
 
   return (
     <Card className={cn("gap-1", className)}>

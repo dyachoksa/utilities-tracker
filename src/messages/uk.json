@@ -234,7 +234,7 @@
         "removeZone": "Видалити тарифну зону",
         "placeholders": {
           "name": "Місячний",
-          "zoneName": "Лічильник",
+          "zoneName": "Назва",
           "price": "Сума"
         }
       },

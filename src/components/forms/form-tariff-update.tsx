@@ -107,7 +107,7 @@ export function FormTariffUpdate({ tariff }: Props) {
                   control={form.control}
                   name={`tariffZones.${index}.name`}
                   label={t("tariff.create.placeholders.zoneName")}
-                  placeholder={t("tariff.create.placeholders.zoneName")}
+                  placeholder="Default"
                   required
                 />
                 <InputText
