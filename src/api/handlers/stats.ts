@@ -1,9 +1,18 @@
-import type { PaymentsByMonthsRoute, PaymentsByTypeRoute } from "~/api/routes/stats";
+import type { PaymentsByMonthsRoute, PaymentsByTypeRoute, PaymentTotalsRoute } from "~/api/routes/stats";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
-import { getPaymentsByMonths, getPaymentsByType } from "~/services/stats";
+import { getPaymentsByMonths, getPaymentsByType, getPaymentTotals } from "~/services/stats";
 import { AppRouteHandler } from "~/types/api";
+
+export const paymentTotals: AppRouteHandler<PaymentTotalsRoute> = async (c) => {
+  const user = c.get("user");
+  const userId = user!.id;
+
+  const paymentTotals = await getPaymentTotals({ userId }, { requestId: c.get("requestId") });
+
+  return c.json(paymentTotals, HttpStatusCodes.OK);
+};
 
 export const paymentsByType: AppRouteHandler<PaymentsByTypeRoute> = async (c) => {
   const user = c.get("user");

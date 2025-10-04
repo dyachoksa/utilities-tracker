@@ -4,9 +4,12 @@ import type {
   PaymentsByTypeQuerySchema,
   PaymentsByTypeSchema,
   PaymentsByTypeValueSchema,
+  PaymentTotalsSchema,
 } from "~/schemas/stats";
 
 import { z } from "@hono/zod-openapi";
+
+export type PaymentTotals = z.infer<typeof PaymentTotalsSchema>;
 
 export type PaymentsByTypeQuery = z.infer<typeof PaymentsByTypeQuerySchema>;
 export type PaymentsByTypeValue = z.infer<typeof PaymentsByTypeValueSchema>;

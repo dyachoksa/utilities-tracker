@@ -1,7 +1,25 @@
+import type { PaymentsByMonthsQuery } from "~/types/stats";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "~/lib/api";
-import { PaymentsByMonthsQuery } from "~/types/stats";
+
+export const fetchPaymentTotalsKey = () => ["stats", { sub: "payment-totals" }];
+
+export const usePaymentTotals = () => {
+  return useQuery({
+    queryKey: fetchPaymentTotalsKey(),
+    queryFn: async () => {
+      const res = await api.stats["payment-totals"].$get({ query: {} });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch payment totals");
+      }
+
+      return res.json();
+    },
+  });
+};
 
 export const fetchPaymentsByTypeKey = () => ["stats", { sub: "payments-by-type" }];
 

@@ -8,6 +8,30 @@ import { payments, providers } from "~/db/schemas";
 import { logger } from "~/lib/logger";
 import { RequestIdOption } from "~/types/common";
 
+type GetPaymentTotalsParams = { userId: string };
+type GetPaymentTotalsOptions = RequestIdOption;
+export const getPaymentTotals = async (params: GetPaymentTotalsParams, options?: GetPaymentTotalsOptions) => {
+  const log = logger.child({ reqId: options?.requestId });
+
+  log.debug({ params }, "Getting payment totals");
+
+  // const { period = formatISO(new Date(), { representation: "date" }) } = params;
+  const period = formatISO(new Date(), { representation: "date" });
+
+  const startDate = startOfMonth(period);
+  const endDate = endOfMonth(period);
+
+  const values = await db
+    .select({
+      amount: sql<string>`sum(${payments.amount})`,
+      paidAmount: sql<string>`sum(${payments.paidAmount})`,
+    })
+    .from(payments)
+    .where(and(eq(payments.userId, params.userId), between(payments.createdAt, startDate, endDate)));
+
+  return values[0] ?? { amount: "0", paidAmount: "0" };
+};
+
 type GetPaymentsByTypeParams = PaymentsByTypeQuery & { userId: string };
 type GetPaymentsByTypeOptions = RequestIdOption;
 export const getPaymentsByType = async (

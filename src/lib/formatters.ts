@@ -6,7 +6,7 @@ export const formatDate = (date: DateArg<Date>) => formatDateFn(date, "PP");
 
 export const formatMonth = (date: DateArg<Date>) => formatDateFn(date, "MMMM, yyyy");
 
-export const formatCurrency = (amount: string, currency: string) => {
+export const formatCurrency = (amount: string | number, currency: string) => {
   const formatter = new Intl.NumberFormat(undefined, {
     style: "currency",
     currency,
@@ -14,5 +14,5 @@ export const formatCurrency = (amount: string, currency: string) => {
     minimumFractionDigits: 2,
   });
 
-  return formatter.format(Number(amount));
+  return formatter.format(typeof amount === "string" ? Number(amount) : amount);
 };

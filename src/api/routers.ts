@@ -41,5 +41,6 @@ export const paymentsRouter = createRouter()
   .openapi(paymentRoutes.remove, paymentHandlers.remove);
 
 export const statsRouter = createRouter()
+  .openapi(statsRoutes.paymentTotals, statsHandlers.paymentTotals)
   .openapi(statsRoutes.paymentsByType, statsHandlers.paymentsByType)
   .openapi(statsRoutes.paymentsByMonths, statsHandlers.paymentsByMonths);

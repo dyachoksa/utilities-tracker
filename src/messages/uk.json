@@ -32,6 +32,13 @@
   "dashboard": {
     "title": "Головна",
     "charts": {
+      "paymentOverview": {
+        "planned": "Планові платежі",
+        "paid": "Сплачено",
+        "progress": "Прогрес оплати",
+        "remaining": "Залишок до сплати",
+        "target": "Загальна сума"
+      },
       "paymentsByMonth": {
         "title": "Платежі за місяць",
         "description": "Платежі за комунальні послуги за останні 12 місяців",

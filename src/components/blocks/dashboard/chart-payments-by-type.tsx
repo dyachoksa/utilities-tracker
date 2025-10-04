@@ -14,6 +14,7 @@ import { useDefaultCurrency } from "~/hooks/use-default-currency";
 import { useProviderType } from "~/hooks/use-provider-type";
 import { usePaymentsByType } from "~/hooks/use-stats-queries";
 import { formatCurrency } from "~/lib/formatters";
+import { cn } from "~/lib/utils";
 
 const defaultData = [
   { providerType: "electricity", amount: 0 },
@@ -24,7 +25,7 @@ const defaultData = [
   { providerType: "other", amount: 0 },
 ];
 
-export const ChartPaymentsByType = () => {
+export const ChartPaymentsByType = ({ className }: { className?: string }) => {
   const t = useTranslations("dashboard.charts.paymentsByType");
   const currency = useDefaultCurrency();
 
@@ -52,7 +53,7 @@ export const ChartPaymentsByType = () => {
   );
 
   return (
-    <Card className="gap-2 rounded-none border-none py-0 shadow-none">
+    <Card className={cn("gap-2 rounded-none border-none py-0 shadow-none", className)}>
       <CardHeader className="px-2">
         <CardTitle>{t("title")}</CardTitle>
         <CardDescription>{t("description")}</CardDescription>

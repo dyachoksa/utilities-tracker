@@ -32,6 +32,13 @@
   "dashboard": {
     "title": "Dashboard",
     "charts": {
+      "paymentOverview": {
+        "planned": "Planned payments",
+        "paid": "Paid amount",
+        "progress": "Payment progress",
+        "remaining": "Remaining amount",
+        "target": "Total amount"
+      },
       "paymentsByMonth": {
         "title": "Payments by month",
         "description": "Payments for utilities for last 12 months",

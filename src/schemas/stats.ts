@@ -2,6 +2,19 @@ import { z } from "@hono/zod-openapi";
 
 import { providerTypes } from "~/constants";
 
+export const PaymentTotalsSchema = z
+  .object({
+    amount: z
+      .string()
+      .regex(/^[0-9]+(\.[0-9]{2})?$/)
+      .openapi({ example: "100.00" }),
+    paidAmount: z
+      .string()
+      .regex(/^[0-9]+(\.[0-9]{2})?$/)
+      .openapi({ example: "100.00" }),
+  })
+  .openapi("PaymentTotals");
+
 export const PaymentsByTypeQuerySchema = z
   .object({
     period: z.iso.date().optional().openapi({

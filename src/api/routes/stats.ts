@@ -8,11 +8,25 @@ import {
   PaymentsByMonthsSchema,
   PaymentsByTypeQuerySchema,
   PaymentsByTypeSchema,
+  PaymentTotalsSchema,
 } from "~/schemas/stats";
 
 export const tags = ["Stats"];
 
 export const basePath = "/stats";
+
+export const paymentTotals = createRoute({
+  tags,
+  path: `${basePath}/payment-totals`,
+
+  method: "get",
+  summary: "Get payment totals",
+  description: "Retrieves payment totals for the current month for the authenticated user.",
+  operationId: "paymentTotals",
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(PaymentTotalsSchema, "Payment totals"),
+  },
+});
 
 export const paymentsByType = createRoute({
   tags,
@@ -47,5 +61,6 @@ export const paymentsByMonths = createRoute({
   },
 });
 
+export type PaymentTotalsRoute = typeof paymentTotals;
 export type PaymentsByTypeRoute = typeof paymentsByType;
 export type PaymentsByMonthsRoute = typeof paymentsByMonths;
