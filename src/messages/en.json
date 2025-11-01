@@ -121,6 +121,7 @@
     "providerDetails": "Provider details",
     "addProvider": "Add provider",
     "view": "View",
+    "website": "Website",
     "errors": {
       "failedToLoad": "Failed to load providers",
       "failedToLoadProvider": "Failed to load provider"
