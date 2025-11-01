@@ -2,6 +2,7 @@ import { Scalar } from "@scalar/hono-api-reference";
 import { except } from "hono/combine";
 import { requestId } from "hono/request-id";
 import { handle } from "hono/vercel";
+import { revalidatePath } from "next/cache";
 import { notFound } from "stoker/middlewares";
 
 import { routes } from "~/api";
@@ -19,6 +20,20 @@ app
 
 app.notFound(notFound);
 app.onError(onError);
+
+app.use(async (c, next) => {
+  await next();
+
+  if (["POST", "PUT", "DELETE", "PATCH"].includes(c.req.method)) {
+    const referer = c.req.header("Referer");
+    if (referer) {
+      const url = new URL(referer);
+      revalidatePath(url.pathname);
+    }
+
+    revalidatePath("/app/dashboard");
+  }
+});
 
 app.doc31("/schema", {
   openapi: "3.1.0",

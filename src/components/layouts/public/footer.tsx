@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const navigation = [
   { key: "home", label: "public.navigation.home", href: "/" },
@@ -15,9 +16,9 @@ export function Footer() {
       <div className="site-container py-12 md:flex md:items-center md:justify-between">
         <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm/6 md:order-2">
           {navigation.map((item) => (
-            <a key={item.key} href={item.href} className="text-gray-200 hover:text-white hover:underline">
+            <Link key={item.key} href={item.href} className="text-gray-200 hover:text-white hover:underline">
               {t(item.label as (typeof navigation)[number]["label"])}
-            </a>
+            </Link>
           ))}
         </nav>
 
